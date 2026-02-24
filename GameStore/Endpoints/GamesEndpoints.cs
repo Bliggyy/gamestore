@@ -64,6 +64,7 @@ public static class GamesEndpoints
                     game.Price,
                     game.ReleaseDate
                 );
+
                 games.Add(newGame);
 
                 return Results.CreatedAtRoute(
