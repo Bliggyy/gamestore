@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj": {}
+    "h:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj": {}
   },
   "projects": {
-    "H:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj": {
+    "h:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
+        "projectUniqueName": "h:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
         "projectName": "GameStore",
-        "projectPath": "H:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
+        "projectPath": "h:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
         "packagesPath": "C:\\Users\\Bliggy\\.nuget\\packages\\",
-        "outputPath": "H:\\Code\\ASP.NET\\GameStore\\GameStore\\obj\\",
+        "outputPath": "h:\\Code\\ASP.NET\\GameStore\\GameStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
