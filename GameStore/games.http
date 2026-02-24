@@ -1,4 +1,15 @@
 GET http://localhost:5235/games
 
 ###
-GET http://localhost:5235/games/2
+GET http://localhost:5235/games/6
+
+###
+POST http://localhost:5235/games
+Content-Type: application/json
+
+{
+    "name": "Valorant",
+    "genre": "Competitive Shooter",
+    "price": 10.00,
+    "releaseDate": "2020-06-02"
+}
