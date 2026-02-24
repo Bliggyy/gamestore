@@ -39,4 +39,41 @@ app.MapPost(
     }
 );
 
+// PUT game /games/{id}
+app.MapPut(
+    "/games/{id}",
+    (int id, UpdateGameDto updatedGame) =>
+    {
+        int index = games.FindIndex(game => game.Id == id);
+
+        games[index] = new GameDto(
+            id,
+            updatedGame.Name,
+            updatedGame.Genre,
+            updatedGame.Price,
+            updatedGame.ReleaseDate
+        );
+
+        return Results.NoContent();
+    }
+);
+
+// DELETE game /games/{id}
+app.MapDelete(
+    "/games/{id}",
+    (int id) =>
+    {
+        int index = games.FindIndex(game => game.Id == id);
+
+        if (index == -1)
+        {
+            return Results.NotFound();
+        }
+
+        games.RemoveAt(index);
+
+        return Results.NoContent();
+    }
+);
+
 app.Run();
