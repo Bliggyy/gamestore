@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qB1B2oxNULY=",
+  "dgSpecHash": "yIEC0Te7NKo=",
   "success": true,
-  "projectFilePath": "H:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
+  "projectFilePath": "h:\\Code\\ASP.NET\\GameStore\\GameStore\\GameStore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Bliggy\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Bliggy\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
