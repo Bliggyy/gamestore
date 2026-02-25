@@ -16,6 +16,12 @@ public static class DataExtensions
     {
         var connString = builder.Configuration.GetConnectionString("GameStore");
 
+        // DbContext has a scoped service lifetime because:
+        // 1. It is designed to be used for a single unit of work, such as a web request.
+        // 2. It is not thread-safe, so it should not be shared across multiple threads or requests.
+        // 3. It can be expensive to create and dispose of, so it is more efficient to reuse it within a single request.
+        // 4. Makes it easier to manage transactions and ensure data consistency within a single request.
+
         builder.Services.AddSqlite<GameStoreContext>(
             connString,
             optionsAction: options =>
