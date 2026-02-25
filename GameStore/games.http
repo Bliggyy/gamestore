@@ -1,29 +1,29 @@
 GET http://localhost:5235/games
 
 ###
-GET http://localhost:5235/games/1
+GET http://localhost:5235/games/2
 
 ###
 POST http://localhost:5235/games
 Content-Type: application/json
 
 {
-    "name": "Valorant",
-    "genreId": 1,
-    "price": 10.00,
-    "releaseDate": "2020-06-02"
+    "name": "TEST GAME",
+    "genreId": 2,
+    "price": 100.00,
+    "releaseDate": "2024-05-12"
 }
 
 ###
-PUT http://localhost:5235/games/7
+PUT http://localhost:5235/games/2
 Content-Type: application/json
 
 {
-    "name": "Counter Strike 2",
-    "genre": "Competitive Shooter",
-    "price": 15.00,
+    "name": "FC 26",
+    "genreId": 5,
+    "price": 29.99,
     "releaseDate": "2024-01-01"
 }
 
 ###
-DELETE http://localhost:5235/games/5
+DELETE http://localhost:5235/games/4
