@@ -15,7 +15,7 @@ export default function Genres() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div>
       <h1 className="mb-4">Genres</h1>
       <div className="d-flex flex-column gap-3 w-100">
         {genres.map((genre) => (

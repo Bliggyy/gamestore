@@ -65,22 +65,37 @@ export default function Games() {
 
   return (
     <div className="games-container">
-      <h1>Games</h1>
-      <div className="games-grid">
-        {error ? (
-          <div className="error-message">Error loading games: {error}</div>
-        ) : loading ? (
-          <div className="loading-message">Loading games...</div>
-        ) : (
-          games.map((game) => (
-            <div key={game.id} className="game-card">
-              <h2>{game.title}</h2>
-              <p>{game.description}</p>
-              <p>${game.price}</p>
+      <h1 className="mb-4">Games</h1>
+
+      {error ? (
+        <div className="error-message">Error loading games: {error}</div>
+      ) : loading ? (
+        <div className="loading-message">Loading games...</div>
+      ) : (
+        <div className="row g-3">
+          {games.map((game) => (
+            <div key={game.id} className="col-12 col-md-4">
+              <div className="card h-100 hover-lift">
+                <img
+                  src={game.image || `https://static.photos/gaming/320x240`}
+                  className="card-img-top width-100"
+                  alt={`${game.title} cover`}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{game.title}</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">
+                    {game.genre}
+                  </h6>
+                  <p className="card-text">{game.description}</p>
+                </div>
+                <div className="card-footer bg-transparent">
+                  <span className="fw-bold">${game.price}</span>
+                </div>
+              </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import Games from "./Pages/Games.jsx";
 import Genres from "./Pages/Genres.jsx";
+import Index from "./Pages/Index.jsx";
 
 function App() {
   return (
@@ -40,9 +41,9 @@ function App() {
       </nav>
 
       {/* centered content area */}
-      <div className="content">
+      <div className="content p-4">
         <Routes>
-          <Route path="/" element={<h1>Welcome to GameStore!</h1>} />
+          <Route path="/" element={<Index />} />
           <Route path="/games" element={<Games />} />
           <Route path="/genres" element={<Genres />} />
         </Routes>
