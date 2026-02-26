@@ -1,8 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-import Games from "./Pages/Games.jsx";
-import Genres from "./Pages/Genres.jsx";
-import Index from "./Pages/Index.jsx";
+import { Games, Genres, Home } from "./pages";
 
 function App() {
   return (
@@ -43,7 +41,7 @@ function App() {
       {/* centered content area */}
       <div className="content p-4">
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
           <Route path="/genres" element={<Genres />} />
         </Routes>

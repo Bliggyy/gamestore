@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ErrorPopup from "../components/ErrorPopup";
 
 const gamesList = [
   {
@@ -66,11 +67,12 @@ export default function Games() {
   return (
     <div className="games-container">
       <h1 className="mb-4">Games</h1>
-
       {error ? (
-        <div className="error-message">Error loading games: {error}</div>
+        <ErrorPopup message={error} />
       ) : loading ? (
-        <div className="loading-message">Loading games...</div>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       ) : (
         <div className="row g-3">
           {games.map((game) => (
