@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import ErrorPopup from "../components/ErrorPopup";
+import { fetchGames } from "../api/game";
+import Loading from "../components/Loading";
 
 const gamesList = [
   {
@@ -46,14 +48,14 @@ export default function Games() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchGames();
+    loadGames();
   }, []);
 
-  const fetchGames = async () => {
+  const loadGames = async () => {
     try {
-      // TODO: Replace with actual API call
       setLoading(true);
-      setGames(gamesList);
+      const fetchedGames = await fetchGames();
+      setGames(fetchedGames);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -70,9 +72,7 @@ export default function Games() {
       {error ? (
         <ErrorPopup message={error} />
       ) : loading ? (
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div className="row g-3">
           {games.map((game) => (
@@ -81,10 +81,10 @@ export default function Games() {
                 <img
                   src={game.image || `https://static.photos/gaming/320x240`}
                   className="card-img-top width-100"
-                  alt={`${game.title} cover`}
+                  alt={`${game.name} cover`}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">{game.title}</h5>
+                  <h5 className="card-title">{game.name}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">
                     {game.genre}
                   </h6>
