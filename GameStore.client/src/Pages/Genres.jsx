@@ -1,28 +1,42 @@
 import { useState, useEffect } from "react";
+import { fetchGenres } from "../api/genre";
 
 export default function Genres() {
   const [genres, setGenres] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // TODO: Replace with actual API call
-    setGenres([
-      { id: 1, name: "Action" },
-      { id: 2, name: "Adventure" },
-      { id: 3, name: "RPG" },
-      { id: 4, name: "Strategy" },
-      { id: 5, name: "Sports" },
-    ]);
+    loadGenres();
   }, []);
+
+  const loadGenres = async () => {
+    try {
+      setLoading(true);
+      const fetchedGenres = await fetchGenres();
+      setGenres(fetchedGenres);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
       <h1 className="mb-4">Genres</h1>
       <div className="d-flex flex-column gap-3 w-100">
-        {genres.map((genre) => (
-          <div key={genre.id} className="p-3 border rounded w-100 hover-lift">
-            {genre.name}
-          </div>
-        ))}
+        {error ? (
+          <ErrorPopup message={error} />
+        ) : loading ? (
+          <Loading />
+        ) : (
+          genres.map((genre) => (
+            <div key={genre.id} className="p-3 border rounded w-100 hover-lift">
+              {genre.name}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -25,9 +25,6 @@ export default function Games() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div className="games-container">
       <h1 className="mb-4">Games</h1>
