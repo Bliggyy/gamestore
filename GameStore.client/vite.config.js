@@ -10,4 +10,9 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    proxy: {
+      '/api': process.env.REACT_API_URL
+    }
+  }
 })
