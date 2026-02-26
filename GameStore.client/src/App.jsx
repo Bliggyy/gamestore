@@ -1,17 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-
-function Genres() {
-  return <h1>Genres List</h1>;
-}
-
-function Games() {
-  return <h1>Games List</h1>;
-}
-
-function GameDetails() {
-  return <h1>Game Details</h1>;
-}
+import Games from "./Pages/Games.jsx";
+import Genres from "./Pages/Genres.jsx";
 
 function App() {
   return (
@@ -55,7 +45,6 @@ function App() {
           <Route path="/" element={<h1>Welcome to GameStore!</h1>} />
           <Route path="/games" element={<Games />} />
           <Route path="/genres" element={<Genres />} />
-          <Route path="/games/:id" element={<GameDetails />} />
         </Routes>
       </div>
     </>

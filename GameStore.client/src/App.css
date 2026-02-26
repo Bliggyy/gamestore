@@ -6,7 +6,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: left; /* change to left so text is not forced centered */
+  text-align: left;
 }
 
 .logo {
@@ -35,6 +35,17 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 24px;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .card {
