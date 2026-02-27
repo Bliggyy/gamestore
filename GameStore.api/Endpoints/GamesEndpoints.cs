@@ -163,9 +163,32 @@ public static class GamesEndpoints
         // DELETE game /games/{id}
         group.MapDelete(
             "/{id}",
-            async (int id, GameStoreContext dbcontext) =>
+            async (int id, IWebHostEnvironment env, GameStoreContext dbcontext) =>
             {
-                await dbcontext.Games.Where(game => game.Id == id).ExecuteDeleteAsync();
+                var game = await dbcontext
+                    .Games.Select(g => new { Game = g, g.Image })
+                    .FirstOrDefaultAsync(g => g.Game.Id == id);
+
+                if (game is null)
+                {
+                    return Results.NotFound();
+                }
+
+                dbcontext.Games.Remove(game.Game);
+                await dbcontext.SaveChangesAsync();
+
+                if (game.Image != null)
+                {
+                    var imagePath = Path.Combine(
+                        env.WebRootPath ?? "wwwroot",
+                        game.Image.Url.TrimStart('/')
+                    );
+
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
 
                 return Results.NoContent();
             }
