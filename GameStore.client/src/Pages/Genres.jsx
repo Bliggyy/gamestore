@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchGenres } from "../api/genre";
+import Loading from "../components/Loading";
+import ErrorPopup from "../components/ErrorPopup";
 
 export default function Genres() {
   const [genres, setGenres] = useState([]);
