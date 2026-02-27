@@ -8,6 +8,7 @@ public record GameSummaryDto(
     int Id,
     string Name,
     string Genre,
+    string ImageUrl,
     decimal Price,
     DateOnly ReleaseDate
 );

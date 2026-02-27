@@ -3,7 +3,7 @@ export default function GameCard({ game }) {
     <div key={game.id} className="col-12 col-md-4">
       <div className="card h-100 hover-lift">
         <img
-          src={game.image || `https://static.photos/gaming/320x240`}
+          src={game.imageUrl || `https://static.photos/gaming/320x240`}
           className="card-img-top width-100"
           alt={`${game.name} cover`}
         />

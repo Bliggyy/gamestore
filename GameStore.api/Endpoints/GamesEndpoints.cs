@@ -19,10 +19,12 @@ public static class GamesEndpoints
             async (GameStoreContext dbcontext) =>
                 await dbcontext
                     .Games.Include(game => game.Genre)
+                    .Include(game => game.Image)
                     .Select(game => new GameSummaryDto(
                         game.Id,
                         game.Name,
                         game.Genre!.Name,
+                        game.Image!.Url,
                         game.Price,
                         game.ReleaseDate
                     ))
