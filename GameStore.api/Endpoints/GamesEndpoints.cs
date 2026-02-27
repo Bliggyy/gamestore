@@ -1,6 +1,7 @@
 using GameStore.Data;
 using GameStore.Dtos;
 using GameStore.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Endpoints;
@@ -62,81 +63,79 @@ public static class GamesEndpoints
             .WithName(GetGameEndpointName);
 
         // POST game /games with file upload
-        group.MapPost(
-            "/",
-            async (HttpRequest request, IWebHostEnvironment env, GameStoreContext dbcontext) =>
-            {
-                var form = await request.ReadFormAsync();
-                var file = form.Files.FirstOrDefault();
-
-                var name = form["name"].ToString();
-                var genreId = int.Parse(form["genreId"].ToString());
-                var priceStr = form["price"].ToString();
-                var price = decimal.Parse(priceStr);
-                var releaseDate = DateOnly.Parse(form["releaseDate"].ToString());
-
-                int? imageId = null;
-
-                // Handle image upload if provided
-                if (file != null && file.Length > 0)
+        group
+            .MapPost(
+                "/",
+                async (
+                    [FromForm] CreateGameDto request,
+                    IWebHostEnvironment env,
+                    GameStoreContext dbcontext
+                ) =>
                 {
-                    var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
-                    Directory.CreateDirectory(uploadsFolder);
+                    Image? image = null;
 
-                    var ext = Path.GetExtension(file.FileName);
-                    var filename = $"{Guid.NewGuid()}{ext}";
-                    var filePath = Path.Combine(uploadsFolder, filename);
-
-                    await using (var stream = File.Create(filePath))
+                    if (request.Image != null && request.Image.Length > 0)
                     {
-                        await file.CopyToAsync(stream);
+                        if (!IsSupportedImage(request.Image))
+                        {
+                            return Results.BadRequest(
+                                "Unsupported image format. Only .jpg, .jpeg, and .png are allowed."
+                            );
+                        }
+
+                        var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var ext = Path.GetExtension(request.Image.FileName);
+                        var filename = $"{Guid.NewGuid()}{ext}";
+                        var filePath = Path.Combine(uploadsFolder, filename);
+
+                        await using (var stream = File.Create(filePath))
+                        {
+                            await request.Image.CopyToAsync(stream);
+                        }
+
+                        image = new Image
+                        {
+                            Url = $"/images/{filename}",
+                            Caption = null,
+                            IsMain = true,
+                        };
                     }
 
-                    var image = new Image
+                    var newGame = new Game
                     {
-                        Url = $"/images/{filename}",
-                        Caption = null,
-                        IsMain = true,
+                        Name = request.Name,
+                        GenreId = request.GenreId,
+                        Image = image,
+                        Price = request.Price,
+                        ReleaseDate = request.ReleaseDate,
                     };
 
-                    dbcontext.Images.Add(image);
+                    dbcontext.Games.Add(newGame);
                     await dbcontext.SaveChangesAsync();
-                    imageId = image.Id;
+
+                    GameDetailsDto gameDto = await dbcontext
+                        .Games.Where(g => g.Id == newGame.Id)
+                        .Select(game => new GameDetailsDto(
+                            game.Id,
+                            game.Name,
+                            game.Genre!.Name,
+                            game.Image != null ? game.Image.Url : string.Empty,
+                            game.Price,
+                            game.ReleaseDate
+                        ))
+                        .AsNoTracking()
+                        .FirstAsync();
+
+                    return Results.CreatedAtRoute(
+                        GetGameEndpointName,
+                        new { id = gameDto.Id },
+                        gameDto
+                    );
                 }
-
-                var newGame = new Game
-                {
-                    Name = name,
-                    GenreId = genreId,
-                    ImageId = imageId,
-                    Price = price,
-                    ReleaseDate = releaseDate,
-                };
-
-                dbcontext.Games.Add(newGame);
-                await dbcontext.SaveChangesAsync();
-
-                var gameWithRelations = await dbcontext
-                    .Games.Include(g => g.Genre)
-                    .Include(g => g.Image)
-                    .FirstOrDefaultAsync(g => g.Id == newGame.Id);
-
-                GameDetailsDto gameDto = new(
-                    gameWithRelations!.Id,
-                    gameWithRelations.Name,
-                    gameWithRelations.Genre!.Name,
-                    gameWithRelations.Image?.Url,
-                    gameWithRelations.Price,
-                    gameWithRelations.ReleaseDate
-                );
-
-                return Results.CreatedAtRoute(
-                    GetGameEndpointName,
-                    new { id = gameDto.Id },
-                    gameDto
-                );
-            }
-        );
+            )
+            .DisableAntiforgery();
 
         // PUT game /games/{id}
         group.MapPut(
@@ -171,5 +170,12 @@ public static class GamesEndpoints
                 return Results.NoContent();
             }
         );
+    }
+
+    public static bool IsSupportedImage(IFormFile file)
+    {
+        string[] allowedExtensions = [".jpg", ".jpeg", ".png"];
+        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        return allowedExtensions.Contains(ext);
     }
 }

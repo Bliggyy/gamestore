@@ -6,7 +6,7 @@ GET http://localhost:5050/games/2
 
 ###
 POST http://localhost:5050/games
-Content-Type: application/json
+Content-Type: multipart/form-data
 
 {
     "name": "TEST GAME",
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5050/games/4
+DELETE http://localhost:5050/games/7
 
 ### Genres
 GET http://localhost:5050/genres
