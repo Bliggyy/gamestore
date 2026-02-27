@@ -24,7 +24,7 @@ public static class GamesEndpoints
                         game.Id,
                         game.Name,
                         game.Genre!.Name,
-                        game.Image!.Url,
+                        game.Image != null ? game.Image.Url : string.Empty,
                         game.Price,
                         game.ReleaseDate
                     ))
@@ -38,7 +38,9 @@ public static class GamesEndpoints
                 "/{id}",
                 async (int id, GameStoreContext dbcontext) =>
                 {
-                    var game = await dbcontext.Games.FindAsync(id);
+                    var game = await dbcontext
+                        .Games.Include(g => g.Image)
+                        .FirstOrDefaultAsync(g => g.Id == id);
 
                     if (game is null)
                     {
@@ -49,8 +51,8 @@ public static class GamesEndpoints
                         new GameDetailsDto(
                             game.Id,
                             game.Name,
-                            game.GenreId,
-                            game.ImageId,
+                            game.Genre!.Name,
+                            game.Image?.Url,
                             game.Price,
                             game.ReleaseDate
                         )
@@ -59,30 +61,73 @@ public static class GamesEndpoints
             )
             .WithName(GetGameEndpointName);
 
-        // POST game /games
+        // POST game /games with file upload
         group.MapPost(
             "/",
-            async (CreateGameDto game, GameStoreContext dbcontext) =>
+            async (HttpRequest request, IWebHostEnvironment env, GameStoreContext dbcontext) =>
             {
-                Game newGame = new()
+                var form = await request.ReadFormAsync();
+                var file = form.Files.FirstOrDefault();
+
+                var name = form["name"].ToString();
+                var genreId = int.Parse(form["genreId"].ToString());
+                var priceStr = form["price"].ToString();
+                var price = decimal.Parse(priceStr);
+                var releaseDate = DateOnly.Parse(form["releaseDate"].ToString());
+
+                int? imageId = null;
+
+                // Handle image upload if provided
+                if (file != null && file.Length > 0)
                 {
-                    Name = game.Name,
-                    GenreId = game.GenreId,
-                    ImageId = game.ImageId,
-                    Price = game.Price,
-                    ReleaseDate = game.ReleaseDate,
+                    var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var ext = Path.GetExtension(file.FileName);
+                    var filename = $"{Guid.NewGuid()}{ext}";
+                    var filePath = Path.Combine(uploadsFolder, filename);
+
+                    await using (var stream = File.Create(filePath))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    var image = new Image
+                    {
+                        Url = $"/images/{filename}",
+                        Caption = null,
+                        IsMain = true,
+                    };
+
+                    dbcontext.Images.Add(image);
+                    await dbcontext.SaveChangesAsync();
+                    imageId = image.Id;
+                }
+
+                var newGame = new Game
+                {
+                    Name = name,
+                    GenreId = genreId,
+                    ImageId = imageId,
+                    Price = price,
+                    ReleaseDate = releaseDate,
                 };
 
                 dbcontext.Games.Add(newGame);
                 await dbcontext.SaveChangesAsync();
 
+                var gameWithRelations = await dbcontext
+                    .Games.Include(g => g.Genre)
+                    .Include(g => g.Image)
+                    .FirstOrDefaultAsync(g => g.Id == newGame.Id);
+
                 GameDetailsDto gameDto = new(
-                    newGame.Id,
-                    newGame.Name,
-                    newGame.GenreId,
-                    newGame.ImageId,
-                    newGame.Price,
-                    newGame.ReleaseDate
+                    gameWithRelations!.Id,
+                    gameWithRelations.Name,
+                    gameWithRelations.Genre!.Name,
+                    gameWithRelations.Image?.Url,
+                    gameWithRelations.Price,
+                    gameWithRelations.ReleaseDate
                 );
 
                 return Results.CreatedAtRoute(

@@ -23,6 +23,7 @@ builder.AddGameStoreDb();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseCors(corsPolicyName);
 app.MapGamesEndpoints();
 app.MapGenresEndpoints();
