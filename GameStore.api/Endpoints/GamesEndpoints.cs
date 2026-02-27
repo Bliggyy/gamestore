@@ -50,6 +50,7 @@ public static class GamesEndpoints
                             game.Id,
                             game.Name,
                             game.GenreId,
+                            game.ImageId,
                             game.Price,
                             game.ReleaseDate
                         )
@@ -67,6 +68,7 @@ public static class GamesEndpoints
                 {
                     Name = game.Name,
                     GenreId = game.GenreId,
+                    ImageId = game.ImageId,
                     Price = game.Price,
                     ReleaseDate = game.ReleaseDate,
                 };
@@ -78,6 +80,7 @@ public static class GamesEndpoints
                     newGame.Id,
                     newGame.Name,
                     newGame.GenreId,
+                    newGame.ImageId,
                     newGame.Price,
                     newGame.ReleaseDate
                 );

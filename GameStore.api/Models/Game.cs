@@ -14,6 +14,6 @@ public class Game
     public DateOnly ReleaseDate { get; set; }
 
     [ForeignKey("Image")]
-    public int ImageId { get; set; }
+    public int? ImageId { get; set; }
     public Image? Image { get; set; }
 }
