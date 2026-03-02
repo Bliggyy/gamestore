@@ -33,6 +33,11 @@ function App() {
                   Genres
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/games/create" className="nav-link">
+                  Create Game
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

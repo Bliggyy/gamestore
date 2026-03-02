@@ -25,3 +25,16 @@ export const fetchGameById = async (id) => {
         throw error;
     }
 };
+
+export const createGame = async (gameData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/games`, {
+            method: 'POST',
+            body: gameData,
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Failed to create game:', error);
+        throw error;
+    }
+};
