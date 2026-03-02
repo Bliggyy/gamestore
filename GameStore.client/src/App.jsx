@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-import { Games, Genres, Home } from "./pages";
+import { Games, GameForm, Genres, Home } from "./pages";
 
 function App() {
   return (
@@ -43,6 +43,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
+          <Route path="/games/create" element={<GameForm />} />
           <Route path="/genres" element={<Genres />} />
         </Routes>
       </div>
