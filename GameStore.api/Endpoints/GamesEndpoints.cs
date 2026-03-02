@@ -54,7 +54,7 @@ public static class GamesEndpoints
                         new GameDetailsDto(
                             game.Id,
                             game.Name,
-                            game.Genre!.Name,
+                            new { game.Genre!.Id, game.Genre.Name },
                             game.Image != null ? game.Image.Url : string.Empty,
                             game.Price,
                             game.ReleaseDate
@@ -74,6 +74,7 @@ public static class GamesEndpoints
                     GameStoreContext dbcontext
                 ) =>
                 {
+                    Console.WriteLine("Request" + request);
                     Image? image = null;
 
                     if (request.Image != null && request.Image.Length > 0)

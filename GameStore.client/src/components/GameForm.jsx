@@ -1,6 +1,5 @@
-import { useState } from "react";
-
 export default function GameForm({
+  type = "create",
   formData,
   genres,
   loading,
@@ -58,7 +57,13 @@ export default function GameForm({
         onChange={handleChange}
       />
       <button type="submit" className="btn btn-primary" disabled={loading}>
-        {loading ? "Creating..." : "Create Game"}
+        {loading
+          ? type === "create"
+            ? "Creating..."
+            : "Updating..."
+          : type === "create"
+            ? "Create Game"
+            : "Update Game"}
       </button>
     </form>
   );

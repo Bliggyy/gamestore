@@ -54,6 +54,15 @@ export const updateGame = async (id, gameData) => {
       method: "PUT",
       body: gameData,
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response from server:", errorText);
+      throw new Error(
+        `HTTP error! status: ${response.status} with message: ${errorText}`,
+      );
+    }
+
     return await response.json();
   } catch (error) {
     console.error(`Failed to update game ${id}:`, error);
