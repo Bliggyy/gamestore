@@ -38,9 +38,9 @@ export default function GameDetails() {
 
   return (
     <div className="game-details">
-      <div className="details-header">
-        <h1>{game.name}</h1>
-        <div className="action-buttons">
+      <div className="d-flex justify-content-between align-items-center mb-4 w-100">
+        <h1 className="mb-0">{game.name}</h1>
+        <div className="d-flex gap-2">
           <button onClick={handleEdit} className="btn btn-primary">
             Edit
           </button>
@@ -58,7 +58,7 @@ export default function GameDetails() {
               : `https://static.photos/gaming/320x240`
           }
           alt={game.name}
-          className="game-image"
+          className="w-50 h-50 mw-50 mh-50 mb-3"
         />
         <div className="game-info">
           <p>

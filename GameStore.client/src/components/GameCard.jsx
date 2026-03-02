@@ -1,9 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export default function GameCard({ game }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/games/${game.id}`);
+  };
+
   return (
     <div key={game.id} className="col-12 col-md-4">
-      <div className="card h-100 hover-lift">
+      <div className="card h-100 hover-lift" onClick={handleCardClick}>
         <img
           src={
             game.imageUrl
