@@ -4,6 +4,7 @@ import GameForm from "../components/GameForm";
 import { fetchGenres } from "../api/genre";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { updateGame } from "../api/game";
+import { useNotification } from "../context/NotificationContext";
 
 export default function GameEdit() {
   const location = useLocation();
@@ -21,6 +22,7 @@ export default function GameEdit() {
   const [error, setError] = useState("");
   const [genres, setGenres] = useState([]);
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -56,34 +58,30 @@ export default function GameEdit() {
       });
 
       await updateGame(id, formDataToSend);
-      setFormData({
-        name: "",
-        genreId: "",
-        price: "",
-        releaseDate: "",
-        image: "",
-      });
-      alert("Game updated successfully!");
+      addNotification("Game updated successfully!");
       navigate("/games");
     } catch (err) {
       setError(err.message);
+      addNotification(err.message, "error");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="form-group">
-      <h2>Edit Game</h2>
-      {error && <ErrorPopup message={error} />}
-      <GameForm
-        type="update"
-        formData={formData}
-        genres={genres}
-        loading={loading}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-      />
+    <div>
+      <div className="form-group">
+        <h2>Edit Game</h2>
+        {error && <ErrorPopup message={error} />}
+        <GameForm
+          type="update"
+          formData={formData}
+          genres={genres}
+          loading={loading}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 }

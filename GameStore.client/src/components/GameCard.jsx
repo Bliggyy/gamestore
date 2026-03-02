@@ -18,7 +18,7 @@ export default function GameCard({ game }) {
               ? `${API_BASE_URL}${game.imageUrl}`
               : `https://static.photos/gaming/320x240`
           }
-          className="card-img-top width-100"
+          className="card-img-top h-100 w-100"
           alt={`${game.name} cover`}
         />
         <div className="card-body">

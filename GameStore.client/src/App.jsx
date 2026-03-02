@@ -8,10 +8,12 @@ import {
   Genres,
   Home,
 } from "./pages/Index";
+import { NotificationProvider } from "./context/NotificationContext";
+import NotificationDisplay from "./components/NotificationDisplay";
 
 function App() {
   return (
-    <>
+    <NotificationProvider>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
@@ -61,7 +63,9 @@ function App() {
           <Route path="/genres" element={<Genres />} />
         </Routes>
       </div>
-    </>
+
+      <NotificationDisplay />
+    </NotificationProvider>
   );
 }
 

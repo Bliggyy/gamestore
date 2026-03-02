@@ -56,7 +56,12 @@ export default function GameForm({
         name="image"
         onChange={handleChange}
       />
-      <button type="submit" className="btn btn-primary" disabled={loading}>
+      <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={loading}
+        data-target="#exampleModal"
+      >
         {loading
           ? type === "create"
             ? "Creating..."

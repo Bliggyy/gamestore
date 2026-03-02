@@ -4,6 +4,7 @@ import GameForm from "../components/GameForm";
 import { fetchGenres } from "../api/genre";
 import { useNavigate } from "react-router-dom";
 import { createGame } from "../api/game";
+import { useNotification } from "../context/NotificationContext";
 
 export default function GameCreate() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export default function GameCreate() {
   const [error, setError] = useState("");
   const [genres, setGenres] = useState([]);
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -59,10 +61,11 @@ export default function GameCreate() {
         releaseDate: "",
         image: "",
       });
-      alert("Game created successfully!");
+      addNotification("Game created successfully!");
       navigate("/games");
     } catch (err) {
       setError(err.message);
+      addNotification(err.message, "error");
     } finally {
       setLoading(false);
     }
