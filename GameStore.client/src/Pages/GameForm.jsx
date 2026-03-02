@@ -15,6 +15,7 @@ export default function CreateGame() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [genres, setGenres] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -41,8 +42,6 @@ export default function CreateGame() {
     setLoading(true);
     setError("");
 
-    console.log(formData);
-
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -50,29 +49,20 @@ export default function CreateGame() {
           formDataToSend.append(key, formData[key]);
         }
       });
-
-      console.log(formDataToSend);
-
-      const response = await createGame(formDataToSend);
-      console.log(response);
-
-      if (!response.ok) {
-        throw new Error("Failed to create game" + response);
-      }
-
+      await createGame(formDataToSend);
       setFormData({
-        title: "",
-        description: "",
+        name: "",
+        genreId: "",
         price: "",
-        genre: "",
         releaseDate: "",
+        image: "",
       });
       alert("Game created successfully!");
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
-      useNavigate("/games");
+      navigate("/games");
     }
   };
 

@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-import { Games, GameForm, Genres, Home } from "./pages";
+import { Games, GameForm, Genres, Home } from "./pages/Index";
 
 function App() {
   return (
