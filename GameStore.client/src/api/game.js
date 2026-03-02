@@ -38,3 +38,16 @@ export const createGame = async (gameData) => {
         throw error;
     }
 };
+
+export const updateGame = async (id, gameData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/games/${id}`, {
+            method: 'PUT',
+            body: gameData,
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(`Failed to update game ${id}:`, error);
+        throw error;
+    }
+};

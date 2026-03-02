@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import ErrorPopup from "../components/ErrorPopup";
+import GameForm from "../components/GameForm";
 import { fetchGenres } from "../api/genre";
 import { useNavigate } from "react-router-dom";
 import { createGame } from "../api/game";
 
-export default function CreateGame() {
+export default function GameCreate() {
   const [formData, setFormData] = useState({
     name: "",
     genreId: "",
@@ -70,59 +71,13 @@ export default function CreateGame() {
     <div className="form-group">
       <h2>Add New Game</h2>
       {error && <ErrorPopup message={error} />}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="form-control mb-3"
-          name="name"
-          placeholder="Game Title"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <select
-          name="genreId"
-          className="form-control mb-3"
-          value={formData.genreId}
-          onChange={handleChange}
-          required
-        >
-          <option value="" disabled>
-            Select Genre
-          </option>
-          {genres.map((genre) => (
-            <option key={genre.id} value={genre.id}>
-              {genre.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          className="form-control mb-3"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="date"
-          className="form-control mb-3"
-          name="releaseDate"
-          value={formData.releaseDate}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="file"
-          className="form-control mb-3"
-          name="image"
-          onChange={handleChange}
-        />
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? "Creating..." : "Create Game"}
-        </button>
-      </form>
+      <GameForm
+        formData={formData}
+        genres={genres}
+        loading={loading}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 }
