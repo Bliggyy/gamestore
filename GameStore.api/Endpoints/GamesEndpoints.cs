@@ -41,6 +41,8 @@ public static class GamesEndpoints
                 {
                     var game = await dbcontext
                         .Games.Include(g => g.Image)
+                        .Include(g => g.Genre)
+                        .AsNoTracking()
                         .FirstOrDefaultAsync(g => g.Id == id);
 
                     if (game is null)
@@ -53,7 +55,7 @@ public static class GamesEndpoints
                             game.Id,
                             game.Name,
                             game.Genre!.Name,
-                            game.Image?.Url,
+                            game.Image != null ? game.Image.Url : string.Empty,
                             game.Price,
                             game.ReleaseDate
                         )
@@ -137,28 +139,83 @@ public static class GamesEndpoints
             )
             .DisableAntiforgery();
 
-        // PUT game /games/{id}
-        group.MapPut(
-            "/{id}",
-            async (int id, UpdateGameDto updatedGame, GameStoreContext dbcontext) =>
-            {
-                var existingGame = await dbcontext.Games.FindAsync(id);
-
-                if (existingGame is null)
+        // PUT game /games/{id} with file upload
+        group
+            .MapPut(
+                "/{id}",
+                async (
+                    int id,
+                    [FromForm] UpdateGameDto updatedGame,
+                    IWebHostEnvironment env,
+                    GameStoreContext dbcontext
+                ) =>
                 {
-                    return Results.NotFound();
+                    var existingGame = await dbcontext
+                        .Games.Include(g => g.Image)
+                        .FirstOrDefaultAsync(g => g.Id == id);
+
+                    if (existingGame is null)
+                    {
+                        return Results.NotFound();
+                    }
+
+                    if (updatedGame.Image != null && updatedGame.Image.Length > 0)
+                    {
+                        if (!IsSupportedImage(updatedGame.Image))
+                        {
+                            return Results.BadRequest(
+                                "Unsupported image format. Only .jpg, .jpeg, and .png are allowed."
+                            );
+                        }
+
+                        var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var ext = Path.GetExtension(updatedGame.Image.FileName);
+                        var filename = $"{Guid.NewGuid()}{ext}";
+                        var filePath = Path.Combine(uploadsFolder, filename);
+
+                        await using (var stream = File.Create(filePath))
+                        {
+                            await updatedGame.Image.CopyToAsync(stream);
+                        }
+
+                        if (existingGame.Image != null)
+                        {
+                            var oldImagePath = Path.Combine(
+                                env.WebRootPath ?? "wwwroot",
+                                existingGame.Image.Url.TrimStart('/')
+                            );
+
+                            if (File.Exists(oldImagePath))
+                            {
+                                File.Delete(oldImagePath);
+                            }
+
+                            existingGame.Image.Url = $"/images/{filename}";
+                        }
+                        else
+                        {
+                            existingGame.Image = new Image
+                            {
+                                Url = $"/images/{filename}",
+                                Caption = null,
+                                IsMain = true,
+                            };
+                        }
+                    }
+
+                    existingGame.Name = updatedGame.Name;
+                    existingGame.GenreId = updatedGame.GenreId;
+                    existingGame.Price = updatedGame.Price;
+                    existingGame.ReleaseDate = updatedGame.ReleaseDate;
+
+                    await dbcontext.SaveChangesAsync();
+
+                    return Results.NoContent();
                 }
-
-                existingGame.Name = updatedGame.Name;
-                existingGame.GenreId = updatedGame.GenreId;
-                existingGame.Price = updatedGame.Price;
-                existingGame.ReleaseDate = updatedGame.ReleaseDate;
-
-                await dbcontext.SaveChangesAsync();
-
-                return Results.NoContent();
-            }
-        );
+            )
+            .DisableAntiforgery();
 
         // DELETE game /games/{id}
         group.MapDelete(
