@@ -63,7 +63,7 @@ export const updateGame = async (id, gameData) => {
       );
     }
 
-    return await response.json();
+    return response;
   } catch (error) {
     console.error(`Failed to update game ${id}:`, error);
     throw error;

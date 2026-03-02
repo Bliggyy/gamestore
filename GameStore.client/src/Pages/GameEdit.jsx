@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import ErrorPopup from "../components/ErrorPopup";
 import GameForm from "../components/GameForm";
 import { fetchGenres } from "../api/genre";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { updateGame } from "../api/game";
 
 export default function GameEdit() {
   const location = useLocation();
+  const { id } = useParams();
   const game = location.state?.game || {};
-  console.log(game);
 
   const [formData, setFormData] = useState({
     name: game.name || "",
@@ -55,7 +55,7 @@ export default function GameEdit() {
         }
       });
 
-      await updateGame(formDataToSend);
+      await updateGame(id, formDataToSend);
       setFormData({
         name: "",
         genreId: "",
