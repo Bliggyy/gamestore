@@ -1,9 +1,15 @@
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+
 export default function GameCard({ game }) {
   return (
     <div key={game.id} className="col-12 col-md-4">
       <div className="card h-100 hover-lift">
         <img
-          src={game.imageUrl || `https://static.photos/gaming/320x240`}
+          src={
+            game.imageUrl
+              ? `${API_BASE_URL}${game.imageUrl}`
+              : `https://static.photos/gaming/320x240`
+          }
           className="card-img-top width-100"
           alt={`${game.name} cover`}
         />

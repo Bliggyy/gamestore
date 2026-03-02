@@ -17,6 +17,7 @@ export default function Games() {
     try {
       setLoading(true);
       const fetchedGames = await fetchGames();
+      console.log("Fetched games:", fetchedGames);
       setGames(fetchedGames);
     } catch (err) {
       setError(err.message);
