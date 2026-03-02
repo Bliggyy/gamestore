@@ -50,6 +50,7 @@ export default function GameCreate() {
           formDataToSend.append(key, formData[key]);
         }
       });
+
       await createGame(formDataToSend);
       setFormData({
         name: "",
@@ -59,11 +60,11 @@ export default function GameCreate() {
         image: "",
       });
       alert("Game created successfully!");
+      navigate("/games");
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
-      navigate("/games");
     }
   };
 

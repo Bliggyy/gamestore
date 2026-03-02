@@ -1,53 +1,62 @@
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export const fetchGames = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/games`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to fetch games:', error);
-        throw error;
+  try {
+    const response = await fetch(`${API_BASE_URL}/games`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch games:", error);
+    throw error;
+  }
 };
 
 export const fetchGameById = async (id) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/games/${id}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(`Failed to fetch game ${id}:`, error);
-        throw error;
+  try {
+    const response = await fetch(`${API_BASE_URL}/games/${id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch game ${id}:`, error);
+    throw error;
+  }
 };
 
 export const createGame = async (gameData) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/games`, {
-            method: 'POST',
-            body: gameData,
-        });
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to create game:', error);
-        throw error;
+  try {
+    const response = await fetch(`${API_BASE_URL}/games`, {
+      method: "POST",
+      body: gameData,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response from server:", errorText);
+      throw new Error(
+        `HTTP error! status: ${response.status} with message: ${errorText}`,
+      );
     }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to create game: ", error);
+    throw error;
+  }
 };
 
 export const updateGame = async (id, gameData) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/games/${id}`, {
-            method: 'PUT',
-            body: gameData,
-        });
-        return await response.json();
-    } catch (error) {
-        console.error(`Failed to update game ${id}:`, error);
-        throw error;
-    }
+  try {
+    const response = await fetch(`${API_BASE_URL}/games/${id}`, {
+      method: "PUT",
+      body: gameData,
+    });
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to update game ${id}:`, error);
+    throw error;
+  }
 };
