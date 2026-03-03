@@ -22,7 +22,9 @@ public class AuthHandler
 
     public static string GenerateJwtToken(string username, IConfiguration configuration)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Key"]!));
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(configuration["JwtConfig:SecretKey"]!)
+        );
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: configuration["JwtConfig:Issuer"],
