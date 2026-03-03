@@ -27,10 +27,17 @@ export const fetchGameById = async (id) => {
 };
 
 export const createGame = async (gameData) => {
+  const token = localStorage.getItem("token");
+
+  console.log(token);
+
   try {
     const response = await fetch(`${API_BASE_URL}/games`, {
       method: "POST",
       body: gameData,
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
     });
 
     if (!response.ok) {
@@ -48,10 +55,15 @@ export const createGame = async (gameData) => {
 };
 
 export const updateGame = async (id, gameData) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await fetch(`${API_BASE_URL}/games/${id}`, {
       method: "PUT",
       body: gameData,
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
     });
 
     if (!response.ok) {

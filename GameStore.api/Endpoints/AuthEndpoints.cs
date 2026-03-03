@@ -11,5 +11,8 @@ public static class AuthEndpoints
         var group = app.MapGroup("/auth");
 
         group.MapPost("/login", AuthHandler.Login);
+        group
+            .MapPost("/validate-token", (Delegate)AuthHandler.ValidateToken)
+            .RequireAuthorization();
     }
 }

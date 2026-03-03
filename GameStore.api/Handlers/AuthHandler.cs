@@ -35,4 +35,11 @@ public class AuthHandler
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public static async Task<IResult> ValidateToken(HttpContext httpContext)
+    {
+        var username = httpContext.User.Identity?.Name;
+
+        return Results.Ok(new { Message = $"Token is valid. Welcome, {username}!" });
+    }
 }
