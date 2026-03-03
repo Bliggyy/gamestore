@@ -23,8 +23,12 @@ builder.AddGameStoreDb();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseStaticFiles();
 app.UseCors(corsPolicyName);
+app.MapAuthEndpoints();
 app.MapGamesEndpoints();
 app.MapGenresEndpoints();
 app.MigrateDb();
