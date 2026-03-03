@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchGameById } from "../api/game";
+import DeleteModal from "../components/DeleteModal";
 
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -9,13 +10,13 @@ export default function GameDetails() {
   const navigate = useNavigate();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const loadGame = async () => {
       try {
         setLoading(true);
         const gameData = await fetchGameById(id);
-        console.log(gameData);
         setGameDetails(gameData);
       } catch (error) {
         console.error("Error fetching game details:", error);
@@ -31,13 +32,19 @@ export default function GameDetails() {
   };
 
   const handleDelete = async () => {
-    // TODO: Implement delete functionality here
+    setShowDeleteModal(true);
   };
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <div className="game-details">
+      <DeleteModal
+        gameId={id}
+        gameName={gameDetails.name}
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+      />
       <div className="d-flex justify-content-between align-items-center mb-4 w-100">
         <h1 className="mb-0">{gameDetails.name}</h1>
         <div className="d-flex gap-2">

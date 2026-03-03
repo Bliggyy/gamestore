@@ -29,8 +29,6 @@ export const fetchGameById = async (id) => {
 export const createGame = async (gameData) => {
   const token = localStorage.getItem("token");
 
-  console.log(token);
-
   try {
     const response = await fetch(`${API_BASE_URL}/games`, {
       method: "POST",
@@ -76,6 +74,31 @@ export const updateGame = async (id, gameData) => {
     return response;
   } catch (error) {
     console.error(`Failed to update game ${id}:`, error);
+    throw error;
+  }
+};
+
+export const deleteGame = async (id) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/games/${id}`, {
+      method: "DELETE",
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status} with message: ${errorText}`,
+      );
+    }
+
+    return response;
+  } catch (error) {
+    console.error(`Failed to delete game ${id}:`, error);
     throw error;
   }
 };
