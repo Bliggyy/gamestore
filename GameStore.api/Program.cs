@@ -23,6 +23,30 @@ builder
                     )
                 ),
             };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+
+                var message = "The provided authentication token is invalid or missing.";
+
+                return context.Response.WriteAsync(message);
+            },
+            OnForbidden = context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                context.Response.ContentType = "application/json";
+
+                var message = "You do not have permission to access this resource.";
+
+                return context.Response.WriteAsync(message);
+            },
+        };
     });
 
 var corsSection = builder.Configuration.GetSection("CorsConfig");
@@ -46,11 +70,11 @@ builder.AddGameStoreDb();
 
 var app = builder.Build();
 
+app.UseCors(corsPolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseStaticFiles();
-app.UseCors(corsPolicyName);
 app.MapAuthEndpoints();
 app.MapGamesEndpoints();
 app.MapGenresEndpoints();

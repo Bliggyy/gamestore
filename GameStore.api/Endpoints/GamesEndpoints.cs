@@ -74,7 +74,6 @@ public static class GamesEndpoints
                 GameStoreContext dbcontext
             ) =>
             {
-                Console.WriteLine("Request" + request);
                 Image? image = null;
 
                 if (request.Image != null && request.Image.Length > 0)
@@ -140,82 +139,80 @@ public static class GamesEndpoints
         );
 
         // PUT game /games/{id} with file upload
-        privateRoutes
-            .MapPut(
-                "/{id}",
-                async (
-                    int id,
-                    [FromForm] UpdateGameDto updatedGame,
-                    IWebHostEnvironment env,
-                    GameStoreContext dbcontext
-                ) =>
+        privateRoutes.MapPut(
+            "/{id}",
+            async (
+                int id,
+                [FromForm] UpdateGameDto updatedGame,
+                IWebHostEnvironment env,
+                GameStoreContext dbcontext
+            ) =>
+            {
+                var existingGame = await dbcontext
+                    .Games.Include(g => g.Image)
+                    .FirstOrDefaultAsync(g => g.Id == id);
+
+                if (existingGame is null)
                 {
-                    var existingGame = await dbcontext
-                        .Games.Include(g => g.Image)
-                        .FirstOrDefaultAsync(g => g.Id == id);
-
-                    if (existingGame is null)
-                    {
-                        return Results.NotFound();
-                    }
-
-                    if (updatedGame.Image != null && updatedGame.Image.Length > 0)
-                    {
-                        if (!IsSupportedImage(updatedGame.Image))
-                        {
-                            return Results.BadRequest(
-                                "Unsupported image format. Only .jpg, .jpeg, and .png are allowed."
-                            );
-                        }
-
-                        var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
-                        Directory.CreateDirectory(uploadsFolder);
-
-                        var ext = Path.GetExtension(updatedGame.Image.FileName);
-                        var filename = $"{Guid.NewGuid()}{ext}";
-                        var filePath = Path.Combine(uploadsFolder, filename);
-
-                        await using (var stream = File.Create(filePath))
-                        {
-                            await updatedGame.Image.CopyToAsync(stream);
-                        }
-
-                        if (existingGame.Image != null)
-                        {
-                            var oldImagePath = Path.Combine(
-                                env.WebRootPath ?? "wwwroot",
-                                existingGame.Image.Url.TrimStart('/')
-                            );
-
-                            if (File.Exists(oldImagePath))
-                            {
-                                File.Delete(oldImagePath);
-                            }
-
-                            existingGame.Image.Url = $"/images/{filename}";
-                        }
-                        else
-                        {
-                            existingGame.Image = new Image
-                            {
-                                Url = $"/images/{filename}",
-                                Caption = null,
-                                IsMain = true,
-                            };
-                        }
-                    }
-
-                    existingGame.Name = updatedGame.Name;
-                    existingGame.GenreId = updatedGame.GenreId;
-                    existingGame.Price = updatedGame.Price;
-                    existingGame.ReleaseDate = updatedGame.ReleaseDate;
-
-                    await dbcontext.SaveChangesAsync();
-
-                    return Results.NoContent();
+                    return Results.NotFound();
                 }
-            )
-            .DisableAntiforgery();
+
+                if (updatedGame.Image != null && updatedGame.Image.Length > 0)
+                {
+                    if (!IsSupportedImage(updatedGame.Image))
+                    {
+                        return Results.BadRequest(
+                            "Unsupported image format. Only .jpg, .jpeg, and .png are allowed."
+                        );
+                    }
+
+                    var uploadsFolder = Path.Combine(env.WebRootPath ?? "wwwroot", "images");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var ext = Path.GetExtension(updatedGame.Image.FileName);
+                    var filename = $"{Guid.NewGuid()}{ext}";
+                    var filePath = Path.Combine(uploadsFolder, filename);
+
+                    await using (var stream = File.Create(filePath))
+                    {
+                        await updatedGame.Image.CopyToAsync(stream);
+                    }
+
+                    if (existingGame.Image != null)
+                    {
+                        var oldImagePath = Path.Combine(
+                            env.WebRootPath ?? "wwwroot",
+                            existingGame.Image.Url.TrimStart('/')
+                        );
+
+                        if (File.Exists(oldImagePath))
+                        {
+                            File.Delete(oldImagePath);
+                        }
+
+                        existingGame.Image.Url = $"/images/{filename}";
+                    }
+                    else
+                    {
+                        existingGame.Image = new Image
+                        {
+                            Url = $"/images/{filename}",
+                            Caption = null,
+                            IsMain = true,
+                        };
+                    }
+                }
+
+                existingGame.Name = updatedGame.Name;
+                existingGame.GenreId = updatedGame.GenreId;
+                existingGame.Price = updatedGame.Price;
+                existingGame.ReleaseDate = updatedGame.ReleaseDate;
+
+                await dbcontext.SaveChangesAsync();
+
+                return Results.NoContent();
+            }
+        );
 
         // DELETE game /games/{id}
         privateRoutes.MapDelete(

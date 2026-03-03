@@ -35,7 +35,6 @@ export const createGame = async (gameData) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Error response from server:", errorText);
       throw new Error(
         `HTTP error! status: ${response.status} with message: ${errorText}`,
       );
@@ -57,7 +56,6 @@ export const updateGame = async (id, gameData) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Error response from server:", errorText);
       throw new Error(
         `HTTP error! status: ${response.status} with message: ${errorText}`,
       );
