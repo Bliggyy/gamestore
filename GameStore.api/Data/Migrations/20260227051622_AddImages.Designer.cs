@@ -3,6 +3,7 @@ using System;
 using GameStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Data.Migrations
 {
     [DbContext(typeof(GameStoreContext))]
-    partial class GameStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20260227051622_AddImages")]
+    partial class AddImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.3");
@@ -43,8 +46,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.HasIndex("ImageId")
-                        .IsUnique();
+                    b.HasIndex("ImageId");
 
                     b.ToTable("Games");
                 });
@@ -94,9 +96,8 @@ namespace GameStore.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("GameStore.Models.Image", "Image")
-                        .WithOne()
-                        .HasForeignKey("GameStore.Models.Game", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("ImageId");
 
                     b.Navigation("Genre");
 
