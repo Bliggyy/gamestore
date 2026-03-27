@@ -13,6 +13,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import NotificationDisplay from "./components/NotificationDisplay";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./context/ProtectedRoute";
 
 function App() {
   return (
@@ -26,8 +27,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
             <Route path="/games/:id" element={<GameDetails />} />
-            <Route path="/games/create" element={<GameCreate />} />
-            <Route path="/games/edit/:id" element={<GameEdit />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/games/create" element={<GameCreate />} />
+              <Route path="/games/edit/:id" element={<GameEdit />} />
+            </Route>
             <Route path="/genres" element={<Genres />} />
             <Route path="/login" element={<Login />} />
           </Routes>
