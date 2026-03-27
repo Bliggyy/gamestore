@@ -64,6 +64,7 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.Services.AddAntiforgery();
 builder.Services.AddValidation();
 builder.Services.AddAuthorization();
 builder.AddGameStoreDb();
