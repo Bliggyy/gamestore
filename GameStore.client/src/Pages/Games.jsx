@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import ErrorPopup from "../components/ErrorPopup";
 import { fetchGames } from "../api/game";
+import { useSearchParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import GameCard from "../components/GameCard";
 
 export default function Games() {
   const [games, setGames] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,7 +18,7 @@ export default function Games() {
   const loadGames = async () => {
     try {
       setLoading(true);
-      const fetchedGames = await fetchGames();
+      const fetchedGames = await fetchGames(searchParams.get("genre"));
       setGames(fetchedGames);
     } catch (err) {
       setError(err.message);

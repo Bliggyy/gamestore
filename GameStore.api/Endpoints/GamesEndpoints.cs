@@ -21,11 +21,21 @@ public static class GamesEndpoints
         // GET games
         publicRoutes.MapGet(
             "/",
-            async (GameStoreContext dbcontext) =>
-                await dbcontext
+            async (string? genre, GameStoreContext dbcontext) =>
+            {
+                var query = dbcontext
                     .Games.Include(game => game.Genre)
                     .Include(game => game.Image)
-                    .Select(game => new GameSummaryDto(
+                    .AsNoTracking()
+                    .AsQueryable();
+
+                if (!string.IsNullOrEmpty(genre))
+                {
+                    query = query.Where(game => game.Genre!.Name == genre);
+                }
+
+                return await query
+                    .Select(game => new GameDetailsDto(
                         game.Id,
                         game.Name,
                         game.Genre!.Name,
@@ -33,8 +43,8 @@ public static class GamesEndpoints
                         game.Price,
                         game.ReleaseDate
                     ))
-                    .AsNoTracking()
-                    .ToListAsync()
+                    .ToListAsync();
+            }
         );
 
         // GET game by id /games/{id}

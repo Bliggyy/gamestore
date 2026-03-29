@@ -1,8 +1,10 @@
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
-export const fetchGames = async () => {
+export const fetchGames = async (genre) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/games`);
+    const response = await fetch(
+      `${API_BASE_URL}/games${genre ? `?genre=${genre}` : ""}`,
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
