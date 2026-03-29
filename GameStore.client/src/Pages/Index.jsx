@@ -5,3 +5,4 @@ export { default as GameCreate } from "./GameCreate";
 export { default as GameDetails } from "./GameDetails";
 export { default as GameEdit } from "./GameEdit";
 export { default as Login } from "./Login";
+export { default as GenreCreate } from "./GenreCreate";
