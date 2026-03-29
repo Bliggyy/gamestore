@@ -14,6 +14,9 @@ public static class GamesEndpoints
     {
         var publicRoutes = app.MapGroup("/games");
         var privateRoutes = app.MapGroup("/games").RequireAuthorization();
+        var userRoutes = app.MapGroup("/games").RequireAuthorization("UserPolicy");
+        var managerRoutes = app.MapGroup("/games").RequireAuthorization("ManagerPolicy");
+        var adminRoutes = app.MapGroup("/games").RequireAuthorization("AdminPolicy");
 
         // GET games
         publicRoutes.MapGet(
@@ -66,7 +69,7 @@ public static class GamesEndpoints
             .WithName(GetGameEndpointName);
 
         // POST game /games with file upload
-        privateRoutes.MapPost(
+        managerRoutes.MapPost(
             "/",
             async (
                 [FromForm] CreateGameDto request,
@@ -139,7 +142,7 @@ public static class GamesEndpoints
         );
 
         // PUT game /games/{id} with file upload
-        privateRoutes.MapPut(
+        managerRoutes.MapPut(
             "/{id}",
             async (
                 int id,
@@ -215,7 +218,7 @@ public static class GamesEndpoints
         );
 
         // DELETE game /games/{id}
-        privateRoutes.MapDelete(
+        managerRoutes.MapDelete(
             "/{id}",
             async (int id, IWebHostEnvironment env, GameStoreContext dbcontext) =>
             {
