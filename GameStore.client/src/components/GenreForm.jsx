@@ -3,7 +3,7 @@ export default function GenreForm({
   handleChange,
   loading,
   handleSubmit,
-  type,
+  type = "create",
 }) {
   return (
     <form onSubmit={handleSubmit}>

@@ -32,6 +32,10 @@ export default function Genres() {
     navigate(`/games/?genre=${genre.name}`);
   };
 
+  const handleEditClick = (genre, id) => {
+    navigate(`/genres/edit/${id}`, { state: { currentGenre: genre, id: id } });
+  };
+
   return (
     <div>
       <h1 className="mb-4">Genres</h1>
@@ -53,7 +57,12 @@ export default function Genres() {
                   className="d-flex gap-2"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <button className="btn btn-warning">Edit</button>
+                  <button
+                    className="btn btn-warning"
+                    onClick={(e) => handleEditClick(genre.name, genre.id)}
+                  >
+                    Edit
+                  </button>
                   <button className="btn btn-danger">Delete</button>
                 </div>
               )}

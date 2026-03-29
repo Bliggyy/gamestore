@@ -2,11 +2,15 @@ import { useState } from "react";
 import ErrorPopup from "../components/ErrorPopup";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
+import { useLocation, useParams } from "react-router-dom";
 import GenreForm from "../components/GenreForm";
 import { createGenre } from "../api/genre";
 
-export default function GenreCreate() {
-  const [genre, setGenre] = useState("");
+export default function GenreEdit() {
+  const location = useLocation();
+  const { id } = useParams();
+  const currentGenre = location.state?.currentGenre || "";
+  const [genre, setGenre] = useState(currentGenre);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -18,9 +22,9 @@ export default function GenreCreate() {
     setError("");
 
     try {
-      await createGenre(genre);
+      // await editGenre(id, genre);
       setGenre("");
-      addNotification("Genre created successfully!");
+      addNotification("Genre edited successfully!");
       navigate("/genres");
     } catch (err) {
       setError(err.message);
@@ -36,13 +40,14 @@ export default function GenreCreate() {
 
   return (
     <div className="form-group">
-      <h2>Add New Genre</h2>
+      <h2>Edit Genre</h2>
       {error && <ErrorPopup message={error} />}
       <GenreForm
         genre={genre}
         handleChange={handleChange}
         loading={loading}
         handleSubmit={handleSubmit}
+        type="edit"
       />
     </div>
   );
