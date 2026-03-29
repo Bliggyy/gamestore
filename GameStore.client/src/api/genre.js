@@ -39,3 +39,30 @@ export const createGenre = async (genre) => {
     throw error;
   }
 };
+
+export const editGenre = async (id, genre) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/genres/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ name: genre }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status} with message: ${errorText}`,
+      );
+    }
+
+    return await response;
+  } catch (error) {
+    console.error("Failed to create genre: ", error);
+    throw error;
+  }
+};

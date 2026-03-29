@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import { useLocation, useParams } from "react-router-dom";
 import GenreForm from "../components/GenreForm";
-import { createGenre } from "../api/genre";
+import { editGenre } from "../api/genre";
 
 export default function GenreEdit() {
   const location = useLocation();
@@ -22,7 +22,7 @@ export default function GenreEdit() {
     setError("");
 
     try {
-      // await editGenre(id, genre);
+      await editGenre(id, genre);
       setGenre("");
       addNotification("Genre edited successfully!");
       navigate("/genres");
