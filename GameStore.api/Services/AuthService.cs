@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace GameStore.Services;
@@ -24,6 +25,7 @@ public static class AuthService
                                 builder.Configuration["JwtConfig:SecretKey"]!
                             )
                         ),
+                        RoleClaimType = ClaimTypes.Role,
                     };
 
                 options.Events = new JwtBearerEvents
