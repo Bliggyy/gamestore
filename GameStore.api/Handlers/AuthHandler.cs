@@ -22,7 +22,7 @@ public class AuthHandler
         }
 
         var token = GenerateJwtToken(request.Username, findUser.role, configuration);
-        return Results.Ok(new { Token = token });
+        return Results.Ok(new { Token = token, Role = findUser.role });
     }
 
     public static string GenerateJwtToken(
