@@ -51,5 +51,43 @@ public static class GenresEndpoints
                 return Results.Created($"/genres/{genre.Id}", new GenreDto(genre.Id, genre.Name));
             }
         );
+
+        // PUT update genre
+        adminGroup.MapPut(
+            "/{id}",
+            async (int id, CreateGenreDto request, GameStoreContext dbcontext) =>
+            {
+                var genre = await dbcontext.Genres.FindAsync(id);
+
+                if (genre is null)
+                {
+                    return Results.NotFound();
+                }
+
+                genre.Name = request.Name;
+                await dbcontext.SaveChangesAsync();
+
+                return Results.NoContent();
+            }
+        );
+
+        // DELETE genre
+        adminGroup.MapDelete(
+            "/{id}",
+            async (int id, GameStoreContext dbcontext) =>
+            {
+                var genre = await dbcontext.Genres.FindAsync(id);
+
+                if (genre is null)
+                {
+                    return Results.NotFound();
+                }
+
+                dbcontext.Genres.Remove(genre);
+                await dbcontext.SaveChangesAsync();
+
+                return Results.NoContent();
+            }
+        );
     }
 }
