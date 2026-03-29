@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GameStore.Data;
 using GameStore.Dtos;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,17 +12,31 @@ public class AuthHandler
     public static async Task<IResult> Login(LoginRequestDto request, IConfiguration configuration)
     {
         // Using hardcoded credentials for demonstration purposes. In a real application, you would validate against a database.
-        if (request.Username == "admin" && request.Password == "password")
+        var findUser = UserMap.Users.FirstOrDefault(user =>
+            user.username == request.Username && user.password == request.Password
+        );
+
+        if (findUser == default)
         {
-            var token = GenerateJwtToken(request.Username, configuration);
-            return Results.Ok(new { Token = token });
+            return Results.Unauthorized();
         }
 
-        return Results.Unauthorized();
+        var token = GenerateJwtToken(request.Username, findUser.role, configuration);
+        return Results.Ok(new { Token = token });
     }
 
-    public static string GenerateJwtToken(string username, IConfiguration configuration)
+    public static string GenerateJwtToken(
+        string username,
+        string role,
+        IConfiguration configuration
+    )
     {
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, username),
+            new Claim(ClaimTypes.Role, role),
+        };
+
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(configuration["JwtConfig:SecretKey"]!)
         );
@@ -29,7 +44,7 @@ public class AuthHandler
         var token = new JwtSecurityToken(
             issuer: configuration["JwtConfig:Issuer"],
             audience: configuration["JwtConfig:Audience"],
-            claims: [new Claim(ClaimTypes.Name, username)],
+            claims: claims,
             expires: DateTime.UtcNow.AddHours(8),
             signingCredentials: creds
         );
