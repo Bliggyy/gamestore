@@ -3,6 +3,7 @@ import ErrorPopup from "../components/ErrorPopup";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import GenreForm from "../components/GenreForm";
+import { createGenre } from "../api/genre";
 
 export default function GenreCreate() {
   const [genre, setGenre] = useState("");
@@ -17,7 +18,7 @@ export default function GenreCreate() {
     setError("");
 
     try {
-      await createGenre({ genre: genre });
+      await createGenre(genre);
       setGenre("");
       addNotification("Genre created successfully!");
       navigate("/genres");

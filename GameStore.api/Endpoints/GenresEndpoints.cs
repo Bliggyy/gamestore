@@ -1,5 +1,6 @@
 using GameStore.Data;
 using GameStore.Dtos;
+using GameStore.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Endpoints;
@@ -9,6 +10,8 @@ public static class GenresEndpoints
     public static void MapGenresEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/genres");
+        var managerGroup = app.MapGroup("/genres").RequireAuthorization("ManagerPolicy");
+        var adminGroup = app.MapGroup("/genres").RequireAuthorization("AdminPolicy");
 
         // GET genres
         group.MapGet(
@@ -33,6 +36,19 @@ public static class GenresEndpoints
                 }
 
                 return Results.Ok(new GenreDto(genre.Id, genre.Name));
+            }
+        );
+
+        // POST create new genre
+        managerGroup.MapPost(
+            "/",
+            async (CreateGenreDto request, GameStoreContext dbcontext) =>
+            {
+                var genre = new Genre { Name = request.Name };
+                dbcontext.Genres.Add(genre);
+                await dbcontext.SaveChangesAsync();
+
+                return Results.Created($"/genres/{genre.Id}", new GenreDto(genre.Id, genre.Name));
             }
         );
     }

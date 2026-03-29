@@ -19,7 +19,7 @@ export const createGenre = async (genre) => {
   try {
     const response = await fetch(`${API_BASE_URL}/genres`, {
       method: "POST",
-      body: JSON.stringify(genre),
+      body: JSON.stringify({ name: genre }),
       headers: {
         "Content-Type": "application/json",
         ...(token && { Authorization: `Bearer ${token}` }),
