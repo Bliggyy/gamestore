@@ -3,24 +3,10 @@ using GameStore.Endpoints;
 using GameStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var corsSection = builder.Configuration.GetSection("CorsConfig");
 
 builder.SetAuthentication();
-
-var corsSection = builder.Configuration.GetSection("CorsConfig");
-var corsPolicyName = corsSection.GetValue<string>("PolicyName")!;
-var allowedOrigins = corsSection.GetSection("AllowedOrigins").Get<string[]>()!;
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
-        corsPolicyName,
-        policy =>
-        {
-            policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
-        }
-    );
-});
-
+builder.SetCors(corsSection);
 builder.Services.AddAntiforgery();
 builder.Services.AddValidation();
 builder.Services.AddAuthorization();
@@ -28,7 +14,7 @@ builder.AddGameStoreDb();
 
 var app = builder.Build();
 
-app.UseCors(corsPolicyName);
+app.UseCors(corsSection.GetValue<string>("PolicyName")!);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
