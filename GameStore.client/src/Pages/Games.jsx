@@ -36,9 +36,11 @@ export default function Games() {
         <Loading />
       ) : (
         <div className="row g-3">
-          {games.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
+          {games.length > 0 ? (
+            games.map((game) => <GameCard key={game.id} game={game} />)
+          ) : (
+            <h2>No games found.</h2>
+          )}
         </div>
       )}
     </div>
