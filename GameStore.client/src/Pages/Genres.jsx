@@ -52,7 +52,7 @@ export default function Genres() {
               onClick={() => handleGenreClick(genre)}
             >
               {genre.name}
-              {user.role == "Admin" && (
+              {user && user.role == "Admin" && (
                 <div
                   className="d-flex gap-2"
                   onClick={(e) => e.stopPropagation()}
