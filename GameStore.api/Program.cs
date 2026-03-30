@@ -1,30 +1,34 @@
 using GameStore.Data;
 using GameStore.Endpoints;
+using GameStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var corsSection = builder.Configuration.GetSection("CorsConfig");
-var corsPolicyName = corsSection.GetValue<string>("PolicyName")!;
-var allowedOrigins = corsSection.GetSection("AllowedOrigins").Get<string[]>()!;
 
-builder.Services.AddCors(options =>
+builder.SetAuthentication();
+builder.SetCors(corsSection);
+builder.Services.AddAntiforgery();
+builder.Services.AddValidation();
+builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(
-        corsPolicyName,
-        policy =>
-        {
-            policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
-        }
+        "UserPolicy",
+        policy => policy.RequireRole(Roles.User, Roles.Admin, Roles.Manager)
     );
+    options.AddPolicy("ManagerPolicy", policy => policy.RequireRole(Roles.Manager, Roles.Admin));
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole(Roles.Admin));
 });
-
-builder.Services.AddValidation();
 builder.AddGameStoreDb();
 
 var app = builder.Build();
 
+app.UseCors(corsSection.GetValue<string>("PolicyName")!);
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseAntiforgery();
+
 app.UseStaticFiles();
-app.UseCors(corsPolicyName);
+app.MapAuthEndpoints();
 app.MapGamesEndpoints();
 app.MapGenresEndpoints();
 app.MigrateDb();

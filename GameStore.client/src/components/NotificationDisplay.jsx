@@ -1,4 +1,42 @@
+import { useState, useEffect } from "react";
 import { useNotification } from "../context/NotificationContext";
+
+function NotificationItem({ notification, onRemove, duration = 4000 }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const frameId = requestAnimationFrame(() => setVisible(true));
+    const timer = setTimeout(handleDismiss, duration);
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleDismiss = () => {
+    setVisible(false);
+    setTimeout(onRemove, 150);
+  };
+
+  return (
+    <div
+      className={`alert alert-${
+        notification.type === "success" ? "success" : "danger"
+      } alert-dismissible fade mb-2 ${visible ? "show" : ""}`}
+      role="alert"
+      style={{ minWidth: "300px", transition: "opacity 0.15s linear" }}
+    >
+      <strong>{notification.type === "success" ? "Success!" : "Error"}</strong>
+      <span> {notification.message}</span>
+      <button
+        type="button"
+        className="btn-close"
+        onClick={handleDismiss}
+        aria-label="Close"
+      ></button>
+    </div>
+  );
+}
 
 export default function NotificationDisplay() {
   const { notifications, removeNotification } = useNotification();
@@ -9,25 +47,11 @@ export default function NotificationDisplay() {
       style={{ zIndex: 9999 }}
     >
       {notifications.map((notification) => (
-        <div
+        <NotificationItem
           key={notification.id}
-          className={`alert alert-${
-            notification.type === "success" ? "success" : "danger"
-          } alert-dismissible fade show mb-2`}
-          role="alert"
-          style={{ minWidth: "300px" }}
-        >
-          <strong>
-            {notification.type === "success" ? "Success!" : "Error"}
-          </strong>
-          <span> {notification.message}</span>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => removeNotification(notification.id)}
-            aria-label="Close"
-          ></button>
-        </div>
+          notification={notification}
+          onRemove={() => removeNotification(notification.id)}
+        />
       ))}
     </div>
   );

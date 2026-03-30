@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchGameById } from "../api/game";
+import { fetchGameById, deleteGame } from "../api/game";
+import DeleteModal from "../components/DeleteModal";
+import { useAuth } from "../context/AuthContext";
 
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -9,13 +11,14 @@ export default function GameDetails() {
   const navigate = useNavigate();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, toggleShowDeleteModal] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadGame = async () => {
       try {
         setLoading(true);
         const gameData = await fetchGameById(id);
-        console.log(gameData);
         setGameDetails(gameData);
       } catch (error) {
         console.error("Error fetching game details:", error);
@@ -30,24 +33,34 @@ export default function GameDetails() {
     navigate(`/games/edit/${id}`, { state: { game: gameDetails } });
   };
 
-  const handleDelete = async () => {
-    // TODO: Implement delete functionality here
+  const handleDeleteModal = async () => {
+    toggleShowDeleteModal(true);
   };
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <div className="game-details">
+      <DeleteModal
+        id={id}
+        name={gameDetails.name}
+        show={showDeleteModal}
+        onHide={() => toggleShowDeleteModal(false)}
+        deleteFunction={deleteGame}
+        redirectPath={"/games"}
+      />
       <div className="d-flex justify-content-between align-items-center mb-4 w-100">
         <h1 className="mb-0">{gameDetails.name}</h1>
-        <div className="d-flex gap-2">
-          <button onClick={handleEdit} className="btn btn-primary">
-            Edit
-          </button>
-          <button onClick={handleDelete} className="btn btn-danger">
-            Delete
-          </button>
-        </div>
+        {user && ["Admin", "Manager"].includes(user.role) && (
+          <div className="d-flex gap-2">
+            <button onClick={handleEdit} className="btn btn-primary">
+              Edit
+            </button>
+            <button onClick={handleDeleteModal} className="btn btn-danger">
+              Delete
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="details-content">
