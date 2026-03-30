@@ -18,13 +18,15 @@ export default function CartSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`offcanvas offcanvas-end show`}
+        className="offcanvas offcanvas-end fade show"
         style={{
           width: "400px",
           transform: `translateX(${isCartOpen ? "0" : "100%"})`,
           transition: "transform 0.3s ease-in-out",
         }}
         tabIndex="-1"
+        data-bs-scroll="true"
+        data-bs-backdrop="false"
       >
         {/* Header */}
         <div className="offcanvas-header border-bottom">
