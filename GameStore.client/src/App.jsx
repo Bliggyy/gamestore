@@ -10,6 +10,7 @@ import {
   Login,
   GenreCreate,
   GenreEdit,
+  Manage,
 } from "./pages/Index";
 import { NotificationProvider } from "./context/NotificationContext";
 import NotificationDisplay from "./components/NotificationDisplay";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/games/edit/:id" element={<GameEdit />} />
               <Route path="/genres/create" element={<GenreCreate />} />
               <Route path="/genres/edit/:id" element={<GenreEdit />} />
+              <Route path="/manage" element={<Manage />} />
             </Route>
             <Route path="/genres" element={<Genres />} />
             <Route path="/login" element={<Login />} />

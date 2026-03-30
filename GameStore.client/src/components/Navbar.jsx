@@ -42,11 +42,13 @@ export default function Navbar() {
                 Genres
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/games/create" className="nav-link">
-                Create Game
-              </Link>
-            </li>
+            {user && ["Admin", "Manager"].includes(user.role) && (
+              <li className="nav-item">
+                <Link to="/manage" className="nav-link">
+                  Manage
+                </Link>
+              </li>
+            )}
           </ul>
           <ul className="navbar-nav">
             {user ? (
