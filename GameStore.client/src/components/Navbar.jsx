@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const handleLogout = () => {
     logout();
+    addNotification("Logged out successfully!", "success");
     navigate("/");
   };
 
