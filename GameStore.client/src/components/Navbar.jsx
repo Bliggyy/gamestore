@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
+import { useCart } from "../context/CartContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { addNotification } = useNotification();
+  const { totalItems, setIsCartOpen } = useCart();
 
   const handleLogout = () => {
     logout();
@@ -56,6 +58,24 @@ export default function Navbar() {
                 <li className="nav-item">
                   <span className="nav-link">Hello, {user.username}</span>
                 </li>
+                <li className="nav-item me-2">
+                  <button
+                    className="btn btn-link nav-link position-relative px-2"
+                    onClick={() => setIsCartOpen(true)}
+                    aria-label="Open cart"
+                  >
+                    <i className="bi bi-cart3 fs-5" />
+                    {totalItems > 0 && (
+                      <span
+                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style={{ fontSize: "0.65rem" }}
+                      >
+                        {totalItems > 99 ? "99+" : totalItems}
+                      </span>
+                    )}
+                  </button>
+                </li>
+
                 <li className="nav-item">
                   <button
                     className="btn btn-link nav-link"
