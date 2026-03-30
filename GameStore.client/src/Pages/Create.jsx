@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Manage() {
+export default function Create() {
   const navigate = useNavigate();
 
-  const manageOptions = [
+  const createOptions = [
     { id: 1, name: "Games", path: "/games/create" },
     { id: 2, name: "Genres", path: "/genres/create" },
   ];
@@ -16,7 +16,7 @@ export default function Manage() {
     <>
       <h1 className="mb-4">Create new Data Here</h1>
       <div className="d-flex flex-column gap-3 w-100">
-        {manageOptions.map((option) => (
+        {createOptions.map((option) => (
           <div
             key={option.id}
             className="p-3 border rounded w-100 hover-lift d-flex justify-content-between align-items-center"

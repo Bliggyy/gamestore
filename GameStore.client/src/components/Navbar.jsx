@@ -44,8 +44,8 @@ export default function Navbar() {
             </li>
             {user && ["Admin", "Manager"].includes(user.role) && (
               <li className="nav-item">
-                <Link to="/manage" className="nav-link">
-                  Manage
+                <Link to="/create" className="nav-link">
+                  Create
                 </Link>
               </li>
             )}

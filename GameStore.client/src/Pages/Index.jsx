@@ -7,4 +7,4 @@ export { default as GameEdit } from "./GameEdit";
 export { default as Login } from "./Login";
 export { default as GenreCreate } from "./GenreCreate";
 export { default as GenreEdit } from "./GenreEdit";
-export { default as Manage } from "./Manage";
+export { default as Create } from "./Create";
