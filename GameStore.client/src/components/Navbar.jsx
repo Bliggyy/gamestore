@@ -67,7 +67,7 @@ export default function Navbar() {
                     <i className="bi bi-cart3 fs-5" />
                     {totalItems > 0 && (
                       <span
-                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        className="position-absolute mt-2 top-0 start-100 translate-middle badge rounded-pill bg-danger"
                         style={{ fontSize: "0.65rem" }}
                       >
                         {totalItems > 99 ? "99+" : totalItems}
