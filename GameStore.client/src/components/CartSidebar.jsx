@@ -1,9 +1,12 @@
 import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
 
 export default function CartSidebar() {
   const { cartItems, isCartOpen, setIsCartOpen, removeFromCart, totalPrice } =
     useCart();
+
+  const handleCheckout = () => {
+    console.log("TODO: Checkout page");
+  };
 
   return (
     <>
@@ -15,10 +18,10 @@ export default function CartSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`offcanvas offcanvas-end ${isCartOpen ? "show" : ""}`}
+        className={`offcanvas offcanvas-end show`}
         style={{
-          visibility: isCartOpen ? "visible" : "hidden",
           width: "400px",
+          transform: `translateX(${isCartOpen ? "0" : "100%"})`,
           transition: "transform 0.3s ease-in-out",
         }}
         tabIndex="-1"
