@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useCallback } from "react";
-import { useNotification } from "./NotificationContext";
 
 const CartContext = createContext();
-const { addNotification } = useNotification();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -12,10 +10,8 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === game.id);
       if (existing) {
-        addNotification(`${game.name} is already in the cart.`, "warning");
         return;
       }
-      addNotification(`${game.name} added to the cart.`, "success");
       return [...prev, { ...game }];
     });
   }, []);

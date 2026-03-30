@@ -4,6 +4,7 @@ import { fetchGameById, deleteGame } from "../api/game";
 import DeleteModal from "../components/DeleteModal";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useNotification } from "../context/NotificationContext";
 
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -14,7 +15,8 @@ export default function GameDetails() {
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, toggleShowDeleteModal] = useState(false);
   const { user } = useAuth();
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     const loadGame = async () => {
@@ -39,6 +41,16 @@ export default function GameDetails() {
     toggleShowDeleteModal(true);
   };
 
+  const handleAddToCart = () => {
+    if (cartItems.some((item) => item.id === gameDetails.id)) {
+      addNotification(`${gameDetails.name} is already in the cart.`, "warning");
+      return;
+    }
+
+    addToCart(gameDetails);
+    addNotification(`${gameDetails.name} added to the cart.`, "success");
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -55,12 +67,7 @@ export default function GameDetails() {
         <h1 className="mb-0">{gameDetails.name}</h1>
 
         <div className="d-flex gap-2">
-          <button
-            onClick={() => {
-              addToCart(gameDetails);
-            }}
-            className="btn btn-success"
-          >
+          <button onClick={handleAddToCart} className="btn btn-success">
             Add to Cart
           </button>
           {user && ["Admin", "Manager"].includes(user.role) && (
