@@ -22,8 +22,8 @@ export default function Login() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow" style={{ width: "400px" }}>
+    <div className="container d-flex justify-content-center align-items-center">
+      <div className="card shadow mt-5" style={{ width: "400px" }}>
         <div className="card-body p-5">
           <h2 className="card-title text-center mb-4">Login</h2>
           <form onSubmit={handleSubmit}>

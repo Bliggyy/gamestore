@@ -9,12 +9,6 @@ export const NotificationProvider = ({ children }) => {
     (message, type = "success", duration = 5000) => {
       const id = Date.now();
       setNotifications((prev) => [...prev, { id, message, type, duration }]);
-
-      // Auto-dismiss after duration
-      setTimeout(() => {
-        removeNotification(id);
-      }, duration);
-
       return id;
     },
     [],
