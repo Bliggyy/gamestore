@@ -20,13 +20,19 @@ function NotificationItem({ notification, onRemove, duration = 4000 }) {
 
   return (
     <div
-      className={`alert alert-${
-        notification.type === "success" ? "success" : "danger"
-      } alert-dismissible fade mb-2 ${visible ? "show" : ""}`}
+      className={`alert alert-${notification.type} alert-dismissible fade mb-2 ${visible ? "show" : ""}`}
       role="alert"
       style={{ minWidth: "300px", transition: "opacity 0.15s linear" }}
     >
-      <strong>{notification.type === "success" ? "Success!" : "Error"}</strong>
+      {["success", "error", "warning"].includes(notification.type) && (
+        <strong>
+          {notification.type === "success"
+            ? "Success!"
+            : notification.type === "error"
+              ? "Error"
+              : "Warning"}
+        </strong>
+      )}
       <span> {notification.message}</span>
       <button
         type="button"
