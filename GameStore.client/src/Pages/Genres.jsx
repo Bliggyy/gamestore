@@ -44,7 +44,7 @@ export default function Genres() {
           <ErrorPopup message={error} />
         ) : loading ? (
           <Loading />
-        ) : (
+        ) : genres.length > 0 ? (
           genres.map((genre) => (
             <div
               key={genre.id}
@@ -68,6 +68,8 @@ export default function Genres() {
               )}
             </div>
           ))
+        ) : (
+          <h2>No genres found</h2>
         )}
       </div>
     </div>
