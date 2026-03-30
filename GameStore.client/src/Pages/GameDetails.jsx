@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchGameById } from "../api/game";
+import { fetchGameById, deleteGame } from "../api/game";
 import DeleteModal from "../components/DeleteModal";
 
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
@@ -10,7 +10,7 @@ export default function GameDetails() {
   const navigate = useNavigate();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteModal, toggleShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const loadGame = async () => {
@@ -31,8 +31,8 @@ export default function GameDetails() {
     navigate(`/games/edit/${id}`, { state: { game: gameDetails } });
   };
 
-  const handleDelete = async () => {
-    setShowDeleteModal(true);
+  const handleDeleteModal = async () => {
+    toggleShowDeleteModal(true);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -40,10 +40,12 @@ export default function GameDetails() {
   return (
     <div className="game-details">
       <DeleteModal
-        gameId={id}
-        gameName={gameDetails.name}
+        id={id}
+        name={gameDetails.name}
         show={showDeleteModal}
-        onHide={() => setShowDeleteModal(false)}
+        onHide={() => toggleShowDeleteModal(false)}
+        deleteFunction={deleteGame}
+        redirectPath={"/games"}
       />
       <div className="d-flex justify-content-between align-items-center mb-4 w-100">
         <h1 className="mb-0">{gameDetails.name}</h1>
@@ -51,7 +53,7 @@ export default function GameDetails() {
           <button onClick={handleEdit} className="btn btn-primary">
             Edit
           </button>
-          <button onClick={handleDelete} className="btn btn-danger">
+          <button onClick={handleDeleteModal} className="btn btn-danger">
             Delete
           </button>
         </div>

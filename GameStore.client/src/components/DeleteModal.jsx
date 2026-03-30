@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-import { deleteGame } from "../api/game";
 import { useNotification } from "../context/NotificationContext";
 
-export default function DeleteModal({ show, onHide, gameName, gameId }) {
+export default function DeleteModal({
+  id,
+  name,
+  show,
+  onHide,
+  deleteFunction,
+  redirectPath,
+}) {
   const [isDeleting, setIsDeleting] = useState(false);
   const { addNotification } = useNotification();
   const navigate = useNavigate();
@@ -12,9 +18,9 @@ export default function DeleteModal({ show, onHide, gameName, gameId }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteGame(gameId);
-      addNotification("Game deleted successfully!", "success");
-      navigate("/games");
+      await deleteFunction(id);
+      addNotification(`${name} deleted successfully!`, "success");
+      navigate(redirectPath);
     } catch (err) {
       addNotification(err.message, "danger");
     } finally {
@@ -25,10 +31,10 @@ export default function DeleteModal({ show, onHide, gameName, gameId }) {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Delete Game</Modal.Title>
+        <Modal.Title>Delete {name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Are you sure you want to delete <strong>{gameName}</strong>? This action
+        Are you sure you want to delete <strong>{name}</strong>? This action
         cannot be undone.
       </Modal.Body>
       <Modal.Footer>
