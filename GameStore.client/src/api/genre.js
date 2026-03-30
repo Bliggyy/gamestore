@@ -60,7 +60,7 @@ export const editGenre = async (id, genre) => {
       );
     }
 
-    return await response;
+    return response;
   } catch (error) {
     console.error("Failed to create genre: ", error);
     throw error;
