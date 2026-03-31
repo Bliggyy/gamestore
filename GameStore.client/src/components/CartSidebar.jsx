@@ -11,8 +11,8 @@ export default function CartSidebar() {
     console.log("TODO: Checkout page");
   };
 
-  const handleCartItemRemove = (itemId) => {
-    const response = deleteGameFromCart({
+  const handleCartItemRemove = async (itemId) => {
+    const response = await deleteGameFromCart({
       username: user.username,
       gameId: itemId,
     });

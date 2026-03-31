@@ -31,3 +31,7 @@ DELETE http://localhost:5050/games/11
 
 ### Genres
 GET http://localhost:5050/genres
+
+### Carts
+DELETE http://localhost:5050/carts?username=user1&gameId=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzc0OTg5NTQ3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwNTAiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.E0HuuvnaRL5z6IuZngT-gdbs2Vd4BD94kgxczcufUI0

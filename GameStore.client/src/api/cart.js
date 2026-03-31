@@ -40,7 +40,7 @@ export const saveCartDetails = async (cartData) => {
       );
     }
 
-    return await response.json();
+    return response;
   } catch (error) {
     console.error("Failed to create game: ", error);
     throw error;

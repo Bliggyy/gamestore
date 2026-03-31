@@ -42,13 +42,13 @@ export default function GameDetails() {
     toggleShowDeleteModal(true);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (cartItems.some((item) => item.id === gameDetails.id)) {
       addNotification(`${gameDetails.name} is already in the cart.`, "warning");
       return;
     }
 
-    const response = saveCartDetails(
+    const response = await saveCartDetails(
       JSON.stringify({ gameId: gameDetails.id, username: user.username }),
     );
 
