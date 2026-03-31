@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
+import { useCart } from "../context/CartContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
   const { addNotification } = useNotification();
+  const { fetchCartItems } = useCart();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,6 +17,7 @@ export default function Login() {
     try {
       await login(username, password);
       addNotification("Login successful!", "success");
+      fetchCartItems();
       navigate("/");
     } catch (err) {
       addNotification(err.message, "danger");

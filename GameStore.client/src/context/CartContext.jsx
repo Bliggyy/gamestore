@@ -23,16 +23,18 @@ export const CartProvider = ({ children }) => {
     });
   }, []);
 
-  useEffect(() => {
+  const fetchCartItems = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
       return;
     }
-    const fetchCartItems = async () => {
-      const cartDetails = await fetchUserCartDetails(user.username);
-      setCartItems(cartDetails);
-    };
+
+    const cartDetails = await fetchUserCartDetails(user.username);
+    setCartItems(cartDetails);
+  };
+
+  useEffect(() => {
     fetchCartItems();
   }, []);
 
@@ -51,6 +53,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         isCartOpen,
         setIsCartOpen,
+        fetchCartItems,
         addToCart,
         removeFromCart,
         clearCart,
