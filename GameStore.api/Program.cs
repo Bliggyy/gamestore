@@ -31,6 +31,7 @@ app.UseStaticFiles();
 app.MapAuthEndpoints();
 app.MapGamesEndpoints();
 app.MapGenresEndpoints();
+app.MapCartsEndpoints();
 app.MigrateDb();
 
 app.Run();
