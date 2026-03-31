@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { fetchUserCartDetails } from "../api/cart";
 
 const CartContext = createContext();
 
@@ -14,6 +21,19 @@ export const CartProvider = ({ children }) => {
       }
       return [...prev, { ...game }];
     });
+  }, []);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      return;
+    }
+    const fetchCartItems = async () => {
+      const cartDetails = await fetchUserCartDetails(user.username);
+      setCartItems(cartDetails);
+    };
+    fetchCartItems();
   }, []);
 
   const removeFromCart = useCallback((id) => {
