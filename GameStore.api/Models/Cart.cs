@@ -9,5 +9,5 @@ public class Cart
 
     [ForeignKey("Game")]
     public int GameId { get; set; }
-    public Game? Game { get; set; }
+    public required Game Game { get; set; }
 }
