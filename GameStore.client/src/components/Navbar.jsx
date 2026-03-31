@@ -7,11 +7,12 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { addNotification } = useNotification();
-  const { totalItems, setIsCartOpen } = useCart();
+  const { totalItems, setIsCartOpen, clearCart } = useCart();
 
   const handleLogout = () => {
     logout();
     addNotification("Logged out successfully!", "success");
+    clearCart();
     navigate("/");
   };
 
