@@ -1,6 +1,6 @@
 namespace GameStore.Dtos;
 
-public record CreateCartDto(
+public record CartInfoDto(
     int GameId,
     string Name,
     string Username,
