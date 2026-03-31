@@ -62,7 +62,7 @@ export default function GameEdit() {
       navigate("/games");
     } catch (err) {
       setError(err.message);
-      addNotification(err.message, "error");
+      addNotification(err.message, "danger");
     } finally {
       setLoading(false);
     }

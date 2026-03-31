@@ -1,11 +1,28 @@
 import { useCart } from "../context/CartContext";
+import { deleteGameFromCart } from "../api/cart";
+import { useAuth } from "../context/AuthContext";
 
 export default function CartSidebar() {
   const { cartItems, isCartOpen, setIsCartOpen, removeFromCart, totalPrice } =
     useCart();
+  const { user } = useAuth();
 
   const handleCheckout = () => {
     console.log("TODO: Checkout page");
+  };
+
+  const handleCartItemRemove = (itemId) => {
+    const response = deleteGameFromCart({
+      username: user.username,
+      gameId: itemId,
+    });
+
+    if (!response.ok) {
+      console.error("Failed to remove item from cart. Please try again.");
+      return;
+    }
+
+    removeFromCart(itemId);
   };
 
   return (
@@ -82,7 +99,7 @@ export default function CartSidebar() {
                       {/* Remove */}
                       <button
                         className="btn btn-link text-danger p-0"
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => handleCartItemRemove(item.id)}
                         aria-label="Remove item"
                       >
                         <i className="bi bi-trash" />

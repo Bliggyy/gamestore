@@ -47,7 +47,7 @@ export const saveCartDetails = async (cartData) => {
   }
 };
 
-export const deleteGame = async (cartData) => {
+export const deleteGameFromCart = async (cartData) => {
   const token = localStorage.getItem("token");
 
   try {

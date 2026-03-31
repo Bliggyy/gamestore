@@ -53,7 +53,7 @@ export default function GameDetails() {
     );
 
     if (!response.ok) {
-      addNotification("Failed to add to cart. Please try again.", "error");
+      addNotification("Failed to add to cart. Please try again.", "danger");
       return;
     }
 
