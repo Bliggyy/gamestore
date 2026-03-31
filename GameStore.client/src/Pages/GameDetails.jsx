@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchGameById, deleteGame } from "../api/game";
+import { saveCartDetails } from "../api/cart";
 import DeleteModal from "../components/DeleteModal";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -44,6 +45,15 @@ export default function GameDetails() {
   const handleAddToCart = () => {
     if (cartItems.some((item) => item.id === gameDetails.id)) {
       addNotification(`${gameDetails.name} is already in the cart.`, "warning");
+      return;
+    }
+
+    const response = saveCartDetails(
+      JSON.stringify({ gameId: gameDetails.id, username: user.username }),
+    );
+
+    if (!response.ok) {
+      addNotification("Failed to add to cart. Please try again.", "error");
       return;
     }
 

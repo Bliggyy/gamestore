@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+
 export const fetchUserCartDetails = async (username) => {
   const token = localStorage.getItem("token");
 
@@ -18,7 +20,7 @@ export const fetchUserCartDetails = async (username) => {
   }
 };
 
-export const addToCart = async (cartData) => {
+export const saveCartDetails = async (cartData) => {
   const token = localStorage.getItem("token");
 
   try {
@@ -26,6 +28,7 @@ export const addToCart = async (cartData) => {
       method: "POST",
       body: cartData,
       headers: {
+        "Content-Type": "application/json",
         ...(token && { Authorization: `Bearer ${token}` }),
       },
     });
@@ -48,13 +51,15 @@ export const deleteGame = async (cartData) => {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/carts`, {
-      method: "DELETE",
-      body: cartData,
-      headers: {
-        ...(token && { Authorization: `Bearer ${token}` }),
+    const response = await fetch(
+      `${API_BASE_URL}/carts?username=${cartData.username}&gameId=${cartData.gameId}`,
+      {
+        method: "DELETE",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       const errorText = await response.text();

@@ -69,17 +69,25 @@ public static class CartsEndpoints
                 dbcontext.Carts.Add(cart);
                 await dbcontext.SaveChangesAsync();
 
-                return Results.CreatedAtRoute(GetCartEndpointName, new { id = cart.Id }, cart);
+                return Results.Created(
+                    $"/carts/{cart.Id}",
+                    new
+                    {
+                        id = cart.Id,
+                        gameId = cart.GameId,
+                        username = cart.User,
+                    }
+                );
             }
         );
 
         // DELETE remove from cart
         userRoutes.MapDelete(
-            "/{id}",
-            async (CartInfoDto request, GameStoreContext dbcontext) =>
+            "/",
+            async (string username, int gameId, GameStoreContext dbcontext) =>
             {
                 var cartItem = await dbcontext.Carts.FirstOrDefaultAsync(cart =>
-                    cart.User == request.Username && cart.GameId == request.GameId
+                    cart.User == username && cart.GameId == gameId
                 );
 
                 if (cartItem == null)
