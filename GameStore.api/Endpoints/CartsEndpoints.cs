@@ -35,5 +35,42 @@ public static class CartsEndpoints
                     .ToListAsync();
             }
         );
+
+        // POST add to cart
+        userRoutes.MapPost(
+            "/",
+            async (CreateCartDto request, GameStoreContext dbcontext) =>
+            {
+                var gameItem = await dbcontext.Games.FindAsync(request.GameId);
+
+                if (gameItem == null)
+                {
+                    return Results.NotFound($"Game with id {request.GameId} not found.");
+                }
+
+                var cartItem = await dbcontext.Carts.FirstOrDefaultAsync(cart =>
+                    cart.User == request.Username && cart.GameId == request.GameId
+                );
+
+                if (cartItem != null)
+                {
+                    return Results.BadRequest(
+                        $"Game with id {request.GameId} is already in the cart for user {request.Username}."
+                    );
+                }
+
+                var cart = new Cart
+                {
+                    GameId = request.GameId,
+                    Game = gameItem,
+                    User = request.Username,
+                };
+
+                dbcontext.Carts.Add(cart);
+                await dbcontext.SaveChangesAsync();
+
+                return Results.CreatedAtRoute(GetCartEndpointName, new { id = cart.Id }, cart);
+            }
+        );
     }
 }
