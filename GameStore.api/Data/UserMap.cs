@@ -6,6 +6,8 @@ public static class UserMap
     {
         ("admin", "adminPassword", Roles.Admin),
         ("manager", "managerPassword", Roles.Manager),
-        ("user", "userPassword", Roles.User),
+        ("user1", "user1Password", Roles.User),
+        ("user2", "user2Password", Roles.User),
+        ("user3", "user3Password", Roles.User),
     };
 }
