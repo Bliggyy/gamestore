@@ -70,7 +70,7 @@ export const deleteGameFromCart = async (cartData) => {
 
     return response;
   } catch (error) {
-    console.error(`Failed to delete game ${id}:`, error);
+    console.error(`Failed to delete game ${cartData.gameId}:`, error);
     throw error;
   }
 };

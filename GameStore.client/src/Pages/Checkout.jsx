@@ -1,20 +1,41 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import CheckoutModal from "../components/CheckoutModal";
+import { deleteGameFromCart } from "../api/cart";
+
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export default function CheckoutPage() {
-  const { cartItems, clearCart } = useCart();
+  const { cartItems, clearCart, totalPrice } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
   const vat = 0.12;
-  const tax = subtotal * vat;
-  const total = subtotal + tax;
+  const tax = totalPrice * vat;
+  const total = totalPrice + tax;
+
+  const deleteAllCartItems = () => {
+    cartItems.forEach(async (item) => {
+      console.log(item);
+      const response = await deleteGameFromCart({
+        username: user.username,
+        gameId: item.id,
+      });
+
+      if (!response.ok) {
+        console.error("Failed to remove item from cart. Please try again.");
+        return;
+      }
+
+      removeFromCart(item.id);
+    });
+  };
 
   const handleCheckout = () => {
     if (!termsAccepted) {
@@ -26,6 +47,7 @@ export default function CheckoutPage() {
 
     setTimeout(() => {
       setLoading(false);
+      deleteAllCartItems();
       clearCart();
 
       setTimeout(() => {
@@ -68,7 +90,6 @@ export default function CheckoutPage() {
           </div>
 
           <div className="row g-4">
-            {/* ── Left column: cart items ── */}
             <div className="col-lg-7">
               <div className="card bg-secondary bg-opacity-10 border-0 rounded-4 overflow-hidden">
                 <div className="card-header bg-transparent border-bottom border-secondary px-4 py-3">
@@ -86,27 +107,20 @@ export default function CheckoutPage() {
                       key={item.id}
                       className="list-group-item bg-transparent border-secondary px-4 py-3 d-flex align-items-center gap-3"
                     >
-                      {/* Game cover / thumbnail */}
+                      {console.log(item)}
                       <img
-                        src={
-                          item.image ||
-                          `https://placehold.co/64x64/1a1a2e/e94560?text=${item.title.slice(0, 2)}`
-                        }
+                        src={`${API_BASE_URL}${item.image}`}
                         alt={item.name}
                         width={64}
                         height={64}
                         className="rounded-3 object-fit-cover flex-shrink-0"
                         style={{ border: "2px solid rgba(255,255,255,.08)" }}
                       />
-
-                      {/* Title */}
                       <div className="flex-grow-1 min-w-0">
                         <div className="text-dark fw-semibold text-truncate">
                           {item.name}
                         </div>
                       </div>
-
-                      {/* Price */}
                       <div className="text-danger fw-bold fs-6 flex-shrink-0">
                         ${item.price.toFixed(2)}
                       </div>
@@ -115,21 +129,18 @@ export default function CheckoutPage() {
                 </ul>
               </div>
             </div>
-
-            {/* ── Right column: price breakdown + actions ── */}
             <div className="col-lg-5">
               <div
                 className="card bg-secondary bg-opacity-10 border-0 rounded-4 p-4 sticky-top"
                 style={{ top: 24 }}
               >
-                {/* Price breakdown */}
                 <h6 className="text-muted text-uppercase fw-bold mb-3 small letter-spacing-1">
                   Payment Details
                 </h6>
 
                 <div className="d-flex justify-content-between text-dark mb-2">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>${totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between text-muted mb-2 small">
                   <span>VAT (12%)</span>
@@ -140,8 +151,6 @@ export default function CheckoutPage() {
                   <span>Total</span>
                   <span className="text-danger">${total.toFixed(2)}</span>
                 </div>
-
-                {/* Terms & Conditions checkbox */}
                 <div className="form-check mb-4">
                   <input
                     className="form-check-input border-secondary"
@@ -168,8 +177,6 @@ export default function CheckoutPage() {
                     and confirm my order.
                   </label>
                 </div>
-
-                {/* Confirm button */}
                 <button
                   className="btn btn-danger w-100 py-3 fw-bold fs-5 rounded-3"
                   disabled={!termsAccepted}
@@ -187,9 +194,7 @@ export default function CheckoutPage() {
               </div>
             </div>
           </div>
-          {/* /row */}
         </div>
-        {/* /container */}
         <CheckoutModal showModal={showModal} loading={loading} />
       </div>
     </>
