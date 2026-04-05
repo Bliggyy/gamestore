@@ -1,14 +1,17 @@
 import { useCart } from "../context/CartContext";
 import { deleteGameFromCart } from "../api/cart";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function CartSidebar() {
   const { cartItems, isCartOpen, setIsCartOpen, removeFromCart, totalPrice } =
     useCart();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleCheckout = () => {
-    console.log("TODO: Checkout page");
+    navigate("/checkout");
+    setIsCartOpen(false);
   };
 
   const handleCartItemRemove = async (itemId) => {

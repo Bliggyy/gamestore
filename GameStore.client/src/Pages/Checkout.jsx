@@ -75,13 +75,13 @@ export default function CheckoutPage() {
                   <span className="text-white fw-semibold">
                     Order Summary&nbsp;
                     <span className="badge bg-danger ms-1">
-                      {cart.length} item{cart.length !== 1 && "s"}
+                      {cartItems.length} item{cartItems.length !== 1 && "s"}
                     </span>
                   </span>
                 </div>
 
                 <ul className="list-group list-group-flush">
-                  {cart.map((item) => (
+                  {cartItems.map((item) => (
                     <li
                       key={item.id}
                       className="list-group-item bg-transparent border-secondary px-4 py-3 d-flex align-items-center gap-3"
