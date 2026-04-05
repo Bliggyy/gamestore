@@ -11,6 +11,7 @@ import {
   GenreCreate,
   GenreEdit,
   Create,
+  Checkout,
 } from "./pages/Index";
 import { NotificationProvider } from "./context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/genres/create" element={<GenreCreate />} />
                 <Route path="/genres/edit/:id" element={<GenreEdit />} />
                 <Route path="/create" element={<Create />} />
+                <Route path="/checkout" element={<Checkout />} />
               </Route>
               <Route path="/genres" element={<Genres />} />
               <Route path="/login" element={<Login />} />
