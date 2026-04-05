@@ -1,7 +1,6 @@
 using GameStore.Data;
 using GameStore.Dtos;
 using GameStore.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Endpoints;
@@ -27,7 +26,7 @@ public static class CartsEndpoints
                     .Carts.Where(cart => cart.User == username)
                     .AsNoTracking()
                     .Select(cart => new CartDetailsDto(
-                        cart.Id,
+                        cart.Game.Id,
                         cart.Game.Name,
                         cart.Game.Image != null ? cart.Game.Image.Url : string.Empty,
                         cart.Game.Price

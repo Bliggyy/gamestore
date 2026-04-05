@@ -22,7 +22,6 @@ export default function CheckoutPage() {
 
   const deleteAllCartItems = () => {
     cartItems.forEach(async (item) => {
-      console.log(item);
       const response = await deleteGameFromCart({
         username: user.username,
         gameId: item.id,
@@ -32,8 +31,6 @@ export default function CheckoutPage() {
         console.error("Failed to remove item from cart. Please try again.");
         return;
       }
-
-      removeFromCart(item.id);
     });
   };
 
@@ -107,7 +104,6 @@ export default function CheckoutPage() {
                       key={item.id}
                       className="list-group-item bg-transparent border-secondary px-4 py-3 d-flex align-items-center gap-3"
                     >
-                      {console.log(item)}
                       <img
                         src={`${API_BASE_URL}${item.image}`}
                         alt={item.name}
