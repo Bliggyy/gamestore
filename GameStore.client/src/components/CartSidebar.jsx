@@ -3,6 +3,8 @@ import { deleteGameFromCart } from "../api/cart";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+
 export default function CartSidebar() {
   const { cartItems, isCartOpen, setIsCartOpen, removeFromCart, totalPrice } =
     useCart();
@@ -75,21 +77,17 @@ export default function CartSidebar() {
                 {cartItems.map((item) => (
                   <li key={item.id} className="list-group-item px-3 py-3">
                     <div className="d-flex gap-3 align-items-center">
-                      {/* Game cover thumbnail */}
-                      {item.image && (
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          style={{
-                            width: "56px",
-                            height: "56px",
-                            objectFit: "cover",
-                            borderRadius: "6px",
-                            flexShrink: 0,
-                          }}
-                        />
-                      )}
-
+                      <img
+                        src={`${API_BASE_URL}${item.imageUrl}`}
+                        alt={item.name}
+                        style={{
+                          width: "56px",
+                          height: "56px",
+                          objectFit: "cover",
+                          borderRadius: "6px",
+                          flexShrink: 0,
+                        }}
+                      />
                       <div className="flex-grow-1 min-width-0">
                         <p className="mb-1 fw-semibold text-truncate">
                           {item.name}
@@ -98,8 +96,6 @@ export default function CartSidebar() {
                           ${item.price.toFixed(2)}
                         </p>
                       </div>
-
-                      {/* Remove */}
                       <button
                         className="btn btn-link text-danger p-0"
                         onClick={() => handleCartItemRemove(item.id)}
