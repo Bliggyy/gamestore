@@ -11,11 +11,11 @@ export default function CheckoutModal({ showModal, loading }) {
 
           {/* Modal dialog */}
           <div
-            className="position-fixed top-50 start-50 translate-middle text-center p-5 rounded-4"
+            className="position-fixed top-50 start-50 translate-middle text-center p-5 rounded-4 shadow-lg"
             style={{
               zIndex: 1050,
-              backgroundColor: "#1a1a2e",
-              border: "1px solid rgba(255,255,255,.08)",
+              backgroundColor: "#ffffff",
+              border: "1px solid #e9ecef",
               minWidth: 300,
             }}
           >
@@ -28,18 +28,18 @@ export default function CheckoutModal({ showModal, loading }) {
                 >
                   <span className="visually-hidden">Processing…</span>
                 </div>
-                <h5 className="text-white fw-bold mb-1">
+                <h5 className="text-dark fw-bold mb-1">
                   Processing your order…
                 </h5>
-                <p className="text-secondary small mb-0">
+                <p className="text-muted small mb-0">
                   Please don't close this window.
                 </p>
               </>
             ) : (
               <>
                 <div className="mb-3 fs-1">✅</div>
-                <h5 className="text-white fw-bold mb-1">Order Confirmed!</h5>
-                <p className="text-secondary small mb-0">
+                <h5 className="text-dark fw-bold mb-1">Order Confirmed!</h5>
+                <p className="text-muted small mb-0">
                   Redirecting you to the home page…
                 </p>
               </>

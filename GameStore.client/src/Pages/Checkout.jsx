@@ -28,7 +28,6 @@ export default function CheckoutPage() {
       setLoading(false);
       clearCart();
 
-      // Redirect to home after a short "success" pause
       setTimeout(() => {
         setShowModal(false);
         navigate("/");
@@ -43,7 +42,10 @@ export default function CheckoutPage() {
         <div className="mb-4 fs-1">🛒</div>
         <h3 className="fw-bold mb-3">Your cart is empty</h3>
         <p className="text-muted mb-4">Add some games before checking out.</p>
-        <button className="btn btn-danger px-4" onClick={() => navigate("/")}>
+        <button
+          className="btn btn-danger px-4"
+          onClick={() => navigate("/games")}
+        >
           Browse Games
         </button>
       </div>
@@ -53,18 +55,16 @@ export default function CheckoutPage() {
   // ── Main render ───────────────────────────────────────────────────────────
   return (
     <>
-      {/* ── Page ── */}
-      <div className="bg-dark min-vh-100 py-5">
+      <div className="min-vh-100 py-5" style={{ backgroundColor: "#f4f6f9" }}>
         <div className="container" style={{ maxWidth: 860 }}>
-          {/* Header */}
           <div className="d-flex align-items-center gap-3 mb-4">
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className="btn btn-outline-dark btn-sm"
               onClick={() => navigate(-1)}
             >
               ← Back
             </button>
-            <h2 className="fw-bold text-white mb-0">Checkout</h2>
+            <h2 className="fw-bold text-dark mb-0">Checkout</h2>
           </div>
 
           <div className="row g-4">
@@ -72,7 +72,7 @@ export default function CheckoutPage() {
             <div className="col-lg-7">
               <div className="card bg-secondary bg-opacity-10 border-0 rounded-4 overflow-hidden">
                 <div className="card-header bg-transparent border-bottom border-secondary px-4 py-3">
-                  <span className="text-white fw-semibold">
+                  <span className="text-dark fw-semibold">
                     Order Summary&nbsp;
                     <span className="badge bg-danger ms-1">
                       {cartItems.length} item{cartItems.length !== 1 && "s"}
@@ -92,7 +92,7 @@ export default function CheckoutPage() {
                           item.image ||
                           `https://placehold.co/64x64/1a1a2e/e94560?text=${item.title.slice(0, 2)}`
                         }
-                        alt={item.title}
+                        alt={item.name}
                         width={64}
                         height={64}
                         className="rounded-3 object-fit-cover flex-shrink-0"
@@ -101,8 +101,8 @@ export default function CheckoutPage() {
 
                       {/* Title */}
                       <div className="flex-grow-1 min-w-0">
-                        <div className="text-white fw-semibold text-truncate">
-                          {item.title}
+                        <div className="text-dark fw-semibold text-truncate">
+                          {item.name}
                         </div>
                       </div>
 
@@ -123,20 +123,20 @@ export default function CheckoutPage() {
                 style={{ top: 24 }}
               >
                 {/* Price breakdown */}
-                <h6 className="text-secondary text-uppercase fw-bold mb-3 small letter-spacing-1">
+                <h6 className="text-muted text-uppercase fw-bold mb-3 small letter-spacing-1">
                   Payment Details
                 </h6>
 
-                <div className="d-flex justify-content-between text-white mb-2">
+                <div className="d-flex justify-content-between text-dark mb-2">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="d-flex justify-content-between text-secondary mb-2 small">
+                <div className="d-flex justify-content-between text-muted mb-2 small">
                   <span>VAT (12%)</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
                 <hr className="border-secondary" />
-                <div className="d-flex justify-content-between text-white fw-bold fs-5 mb-4">
+                <div className="d-flex justify-content-between text-dark fw-bold fs-5 mb-4">
                   <span>Total</span>
                   <span className="text-danger">${total.toFixed(2)}</span>
                 </div>
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                     style={{ cursor: "pointer" }}
                   />
                   <label
-                    className="form-check-label text-secondary small"
+                    className="form-check-label text-muted small"
                     htmlFor="termsCheckbox"
                     style={{ cursor: "pointer" }}
                   >
@@ -180,7 +180,7 @@ export default function CheckoutPage() {
                 </button>
 
                 {!termsAccepted && (
-                  <p className="text-secondary text-center small mt-2 mb-0">
+                  <p className="text-muted text-center small mt-2 mb-0">
                     Please accept the terms to continue.
                   </p>
                 )}
