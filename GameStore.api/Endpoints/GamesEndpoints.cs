@@ -78,6 +78,30 @@ public static class GamesEndpoints
             )
             .WithName(GetGameEndpointName);
 
+        userRoutes.MapGet(
+            "/owned-games",
+            async (string user, GameStoreContext dbcontext) =>
+            {
+                var ownedGames = await dbcontext
+                    .OwnedGames.Where(og => og.User == user)
+                    .Include(og => og.Game)
+                        .ThenInclude(g => g.Image)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var ownedGamesDto = ownedGames.Select(og => new GameDetailsDto(
+                    og.Game.Id,
+                    og.Game.Name,
+                    og.Game.Genre!.Name,
+                    og.Game.Image != null ? og.Game.Image.Url : string.Empty,
+                    og.Game.Price,
+                    og.Game.ReleaseDate
+                ));
+
+                return Results.Ok(ownedGamesDto);
+            }
+        );
+
         // POST game /games with file upload
         managerRoutes.MapPost(
             "/",
