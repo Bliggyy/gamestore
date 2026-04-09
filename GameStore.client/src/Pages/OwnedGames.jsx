@@ -4,6 +4,8 @@ import { useAuth } from "../context/AuthContext";
 import GameMenu from "../components/OwnedGamesMenu";
 import { fetchOwnedGames, deleteOwnedGame } from "../api/game";
 
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
+
 export default function MyGamesPage() {
   const navigate = useNavigate();
   const { user, token } = useAuth();
@@ -57,7 +59,7 @@ export default function MyGamesPage() {
 
   const filtered = games.filter(
     (g) =>
-      g.title.toLowerCase().includes(search.toLowerCase()) ||
+      g.name.toLowerCase().includes(search.toLowerCase()) ||
       (g.genre && g.genre.toLowerCase().includes(search.toLowerCase())),
   );
 
@@ -201,10 +203,11 @@ export default function MyGamesPage() {
                   {/* Thumbnail */}
                   <img
                     src={
-                      game.image ||
-                      `https://placehold.co/80x80/dee2e6/495057?text=${game.title.slice(0, 2)}`
+                      game.imageUrl
+                        ? `${API_BASE_URL}${game.imageUrl}`
+                        : `https://static.photos/gaming/320x240`
                     }
-                    alt={game.title}
+                    alt={game.name}
                     width={56}
                     height={56}
                     className="rounded-3 object-fit-cover flex-shrink-0"
@@ -214,7 +217,7 @@ export default function MyGamesPage() {
                   {/* Title & genre */}
                   <div className="flex-grow-1 min-w-0">
                     <div className="text-dark fw-semibold text-truncate">
-                      {game.title}
+                      {game.name}
                     </div>
                     {game.genre && (
                       <span
