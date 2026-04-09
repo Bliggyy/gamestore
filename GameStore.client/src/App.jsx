@@ -12,6 +12,7 @@ import {
   GenreEdit,
   Create,
   Checkout,
+  OwnedGames,
 } from "./pages/Index";
 import { NotificationProvider } from "./context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/genres/edit/:id" element={<GenreEdit />} />
                 <Route path="/create" element={<Create />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/my-games" element={<OwnedGames />} />
               </Route>
               <Route path="/genres" element={<Genres />} />
               <Route path="/login" element={<Login />} />

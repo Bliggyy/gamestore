@@ -9,3 +9,4 @@ export { default as GenreCreate } from "./GenreCreate";
 export { default as GenreEdit } from "./GenreEdit";
 export { default as Create } from "./Create";
 export { default as Checkout } from "./Checkout";
+export { default as OwnedGames } from "./OwnedGames";
