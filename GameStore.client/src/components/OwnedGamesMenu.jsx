@@ -5,12 +5,16 @@ export default function GameMenu({ gameId, onRemove }) {
   const menuRef = useRef(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      return;
+    }
+
     const handler = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
