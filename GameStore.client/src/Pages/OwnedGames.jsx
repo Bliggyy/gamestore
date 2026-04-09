@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
 import GameMenu from "../components/OwnedGamesMenu";
 import { fetchOwnedGames, deleteOwnedGame } from "../api/game";
 
@@ -8,18 +9,13 @@ const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export default function MyGamesPage() {
   const navigate = useNavigate();
-  const { user, token } = useAuth();
+  const { user } = useAuth();
+  const { addNotification } = useNotification();
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [removing, setRemoving] = useState(null); // id of game currently being removed
-
-  // ── Helpers ──────────────────────────────────────────────────────────────────
-  const authHeaders = () => ({
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  });
 
   // ── Fetch owned games on mount ────────────────────────────────────────────────
   useEffect(() => {
@@ -51,7 +47,7 @@ export default function MyGamesPage() {
 
       setGames((prev) => prev.filter((g) => g.id !== id));
     } catch (err) {
-      alert(`Could not remove game: ${err.message}`);
+      addNotification("Could not remove game: " + err.message, "danger");
     } finally {
       setRemoving(null);
     }
@@ -170,7 +166,7 @@ export default function MyGamesPage() {
           </div>
         ) : (
           <div
-            className="card border-0 rounded-4 shadow-sm overflow-hidden"
+            className="card border-0 rounded-4 shadow-sm"
             style={{ backgroundColor: "#fff" }}
           >
             <ul className="list-group list-group-flush">
@@ -234,11 +230,6 @@ export default function MyGamesPage() {
                     )}
                   </div>
 
-                  {/* Price */}
-                  <div className="text-danger fw-bold me-3 flex-shrink-0">
-                    ${game.price.toFixed(2)}
-                  </div>
-
                   {/* Triple-dot menu or removing spinner */}
                   {removing === game.id ? (
                     <div
@@ -248,7 +239,10 @@ export default function MyGamesPage() {
                       <span className="visually-hidden">Removing…</span>
                     </div>
                   ) : (
-                    <GameMenu gameId={game.id} onRemove={handleRemove} />
+                    user &&
+                    ["Manager", "Admin"].includes(user.role) && (
+                      <GameMenu gameId={game.id} onRemove={handleRemove} />
+                    )
                   )}
                 </li>
               ))}

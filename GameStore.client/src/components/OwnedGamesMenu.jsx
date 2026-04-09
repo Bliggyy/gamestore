@@ -38,7 +38,7 @@ export default function GameMenu({ gameId, onRemove }) {
         <div
           className="position-absolute end-0 mt-1 rounded-3 shadow"
           style={{
-            zIndex: 100,
+            zIndex: 1000,
             backgroundColor: "#fff",
             border: "1px solid #e9ecef",
             minWidth: 160,
