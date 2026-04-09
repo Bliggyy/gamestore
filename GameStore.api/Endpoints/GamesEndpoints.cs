@@ -286,13 +286,9 @@ public static class GamesEndpoints
         );
 
         // POST owned-game
-        managerRoutes.MapPost(
+        userRoutes.MapPost(
             "/owned-games",
-            async (
-                CreateOwnedGameDto request,
-                IWebHostEnvironment env,
-                GameStoreContext dbcontext
-            ) =>
+            async (CreateOwnedGameDto request, GameStoreContext dbcontext) =>
             {
                 var game = await dbcontext.Games.FindAsync(request.GameId);
 

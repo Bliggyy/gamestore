@@ -2,14 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import CheckoutModal from "../components/CheckoutModal";
 import { deleteGameFromCart } from "../api/cart";
+import { addOwnedGame } from "../api/game";
+import CheckoutModal from "../components/CheckoutModal";
+import { useNotification } from "../context/NotificationContext";
 
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export default function CheckoutPage() {
   const { cartItems, clearCart, totalPrice } = useCart();
   const { user } = useAuth();
+  const { addNotification } = useNotification();
   const navigate = useNavigate();
 
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -34,7 +37,21 @@ export default function CheckoutPage() {
     });
   };
 
-  const handleCheckout = () => {
+  const addGamesToOwnedList = async () => {
+    for (const item of cartItems) {
+      const response = await addOwnedGame(
+        JSON.stringify({ username: user.username, gameId: item.id }),
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to add game ${item.id} to owned list for user ${user.username}`,
+        );
+      }
+    }
+  };
+
+  const handleCheckout = async () => {
     if (!termsAccepted) {
       return;
     }
@@ -42,15 +59,22 @@ export default function CheckoutPage() {
     setShowModal(true);
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      deleteAllCartItems();
-      clearCart();
-
-      setTimeout(() => {
-        setShowModal(false);
+    setTimeout(async () => {
+      try {
+        await addGamesToOwnedList();
+        deleteAllCartItems();
+        clearCart();
         navigate("/");
-      }, 1200);
+      } catch (error) {
+        console.log(error);
+        addNotification("Checkout failed. Please try again.", "danger");
+        return;
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+          setShowModal(false);
+        }, 1500);
+      }
     }, 2500);
   };
 
