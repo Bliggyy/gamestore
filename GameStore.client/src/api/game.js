@@ -131,3 +131,31 @@ export const deleteGame = async (id) => {
     throw error;
   }
 };
+
+export const deleteOwnedGame = async (id, username) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/games/owned-games/${id}?user=${username}`,
+      {
+        method: "DELETE",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status} with message: ${errorText}`,
+      );
+    }
+
+    return response;
+  } catch (error) {
+    console.error(`Failed to delete game owned by ${username} ${id}:`, error);
+    throw error;
+  }
+};

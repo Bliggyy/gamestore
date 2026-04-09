@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GameMenu from "../components/OwnedGamesMenu";
-import { fetchOwnedGames } from "../api/game";
+import { fetchOwnedGames, deleteOwnedGame } from "../api/game";
 
 export default function MyGamesPage() {
   const navigate = useNavigate();
@@ -41,10 +41,7 @@ export default function MyGamesPage() {
   const handleRemove = async (id) => {
     setRemoving(id);
     try {
-      const res = await fetch(REMOVE_GAME_ENDPOINT(id), {
-        method: "DELETE",
-        headers: authHeaders(),
-      });
+      const res = await deleteOwnedGame(id, user.username);
 
       if (!res.ok) {
         throw new Error(`Failed to remove game (${res.status})`);

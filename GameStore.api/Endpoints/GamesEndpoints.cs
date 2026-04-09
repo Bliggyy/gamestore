@@ -284,6 +284,27 @@ public static class GamesEndpoints
                 return Results.NoContent();
             }
         );
+
+        // DELETE owned game /games/owned-games/{id}
+        managerRoutes.MapDelete(
+            "/owned-games/{id}",
+            async (int id, string user, GameStoreContext dbcontext) =>
+            {
+                var ownedGame = await dbcontext.OwnedGames.FirstOrDefaultAsync(og =>
+                    og.GameId == id && og.User == user
+                );
+
+                if (ownedGame is null)
+                {
+                    return Results.NotFound();
+                }
+
+                dbcontext.OwnedGames.Remove(ownedGame);
+                await dbcontext.SaveChangesAsync();
+
+                return Results.NoContent();
+            }
+        );
     }
 
     public static bool IsSupportedImage(IFormFile file)
