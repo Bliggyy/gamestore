@@ -28,6 +28,33 @@ export const fetchGameById = async (id) => {
   }
 };
 
+export const fetchOwnedGames = async (username) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/games/owned-games?user=${username}`,
+      {
+        method: "GET",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP error! status: ${response.status} Error: ${response.statusText}`,
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch owned games for user ${username}:`, error);
+    throw error;
+  }
+};
+
 export const createGame = async (gameData) => {
   const token = localStorage.getItem("token");
 

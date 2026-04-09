@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GameMenu from "../components/OwnedGamesMenu";
+import { fetchOwnedGames } from "../api/game";
 
 const API_BASE = "https://your-api.com"; // e.g. "https://api.mygamestore.com"
 const OWNED_GAMES_ENDPOINT = `${API_BASE}/users/me/games`; // GET  → returns array of games
@@ -9,7 +10,7 @@ const REMOVE_GAME_ENDPOINT = (id) => `${API_BASE}/users/me/games/${id}`; // DELE
 
 export default function MyGamesPage() {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { user, token } = useAuth();
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,19 +29,8 @@ export default function MyGamesPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(OWNED_GAMES_ENDPOINT, {
-          headers: authHeaders(),
-        });
-
-        if (res.status === 401) {
-          navigate("/login"); // token expired or missing
-          return;
-        }
-
-        if (!res.ok) throw new Error(`Failed to fetch games (${res.status})`);
-
-        const data = await res.json();
-        setGames(data); // expects: [{ id, title, price, genre?, image? }, ...]
+        const res = await fetchOwnedGames(user.username);
+        setGames(res);
       } catch (err) {
         setError(err.message || "Something went wrong.");
       } finally {
@@ -125,10 +115,10 @@ export default function MyGamesPage() {
   if (games.length === 0) {
     return (
       <div
-        className="min-vh-100 d-flex align-items-center justify-content-center"
+        className="min-vh-100 d-flex justify-content-center"
         style={{ backgroundColor: "#f4f6f9" }}
       >
-        <div className="text-center">
+        <div className="text-center mt-5">
           <div className="mb-3 fs-1">🎮</div>
           <h4 className="fw-bold text-dark mb-2">No games yet</h4>
           <p className="text-muted mb-4">
