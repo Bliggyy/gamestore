@@ -78,30 +78,6 @@ public static class GamesEndpoints
             )
             .WithName(GetGameEndpointName);
 
-        userRoutes.MapGet(
-            "/owned-games",
-            async (string user, GameStoreContext dbcontext) =>
-            {
-                var ownedGames = await dbcontext
-                    .OwnedGames.Where(og => og.User == user)
-                    .Include(og => og.Game)
-                        .ThenInclude(g => g.Image)
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                var ownedGamesDto = ownedGames.Select(og => new GameDetailsDto(
-                    og.Game.Id,
-                    og.Game.Name,
-                    og.Game.Genre!.Name,
-                    og.Game.Image != null ? og.Game.Image.Url : string.Empty,
-                    og.Game.Price,
-                    og.Game.ReleaseDate
-                ));
-
-                return Results.Ok(ownedGamesDto);
-            }
-        );
-
         // POST game /games with file upload
         managerRoutes.MapPost(
             "/",
@@ -282,6 +258,60 @@ public static class GamesEndpoints
                 }
 
                 return Results.NoContent();
+            }
+        );
+
+        userRoutes.MapGet(
+            "/owned-games",
+            async (string user, GameStoreContext dbcontext) =>
+            {
+                var ownedGames = await dbcontext
+                    .OwnedGames.Where(og => og.User == user)
+                    .Include(og => og.Game)
+                        .ThenInclude(g => g.Image)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var ownedGamesDto = ownedGames.Select(og => new GameDetailsDto(
+                    og.Game.Id,
+                    og.Game.Name,
+                    og.Game.Genre!.Name,
+                    og.Game.Image != null ? og.Game.Image.Url : string.Empty,
+                    og.Game.Price,
+                    og.Game.ReleaseDate
+                ));
+
+                return Results.Ok(ownedGamesDto);
+            }
+        );
+
+        // POST owned-game
+        managerRoutes.MapPost(
+            "/owned-games",
+            async (
+                CreateOwnedGameDto request,
+                IWebHostEnvironment env,
+                GameStoreContext dbcontext
+            ) =>
+            {
+                var game = await dbcontext.Games.FindAsync(request.GameId);
+
+                if (game is null)
+                {
+                    return Results.NotFound("Game not found.");
+                }
+
+                var ownedGame = new OwnedGames
+                {
+                    GameId = request.GameId,
+                    User = request.Username,
+                    Game = game,
+                };
+
+                dbcontext.OwnedGames.Add(ownedGame);
+                await dbcontext.SaveChangesAsync();
+
+                return Results.Created($"/games/owned-games/{ownedGame.Id}", null);
             }
         );
 
