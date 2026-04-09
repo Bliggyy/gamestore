@@ -4,10 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import GameMenu from "../components/OwnedGamesMenu";
 import { fetchOwnedGames } from "../api/game";
 
-const API_BASE = "https://your-api.com"; // e.g. "https://api.mygamestore.com"
-const OWNED_GAMES_ENDPOINT = `${API_BASE}/users/me/games`; // GET  → returns array of games
-const REMOVE_GAME_ENDPOINT = (id) => `${API_BASE}/users/me/games/${id}`; // DELETE
-
 export default function MyGamesPage() {
   const navigate = useNavigate();
   const { user, token } = useAuth();
@@ -124,7 +120,10 @@ export default function MyGamesPage() {
           <p className="text-muted mb-4">
             Games you purchase will appear here.
           </p>
-          <button className="btn btn-danger px-4" onClick={() => navigate("/")}>
+          <button
+            className="btn btn-danger px-4"
+            onClick={() => navigate("/games")}
+          >
             Browse Games
           </button>
         </div>
