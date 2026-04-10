@@ -32,14 +32,15 @@ export default function Games() {
       <div className="container" style={{ maxWidth: 1100 }}>
         {/* Header */}
         <div className="d-flex align-items-center justify-content-between mb-4">
-          {searchParams.get("genre") && (
+          {searchParams.get("genre") != null ? (
             <span className="badge bg-opacity-10 text-danger px-3 py-2 fs-1">
               {searchParams.get("genre")} Games
             </span>
+          ) : (
+            <h2 className="badge bg-opacity-10 text-danger px-3 py-2 fs-1">
+              Games
+            </h2>
           )}
-          <h2 className="badge bg-opacity-10 text-danger px-3 py-2 fs-1">
-            Games
-          </h2>
         </div>
 
         {/* Content */}
