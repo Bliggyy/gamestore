@@ -7,10 +7,9 @@ export default function GameCard({ game }) {
   return (
     <div className="col-12 col-md-4">
       <div
-        className="card h-100 border-1 hover-lift rounded-4 overflow-hidden"
+        className="card h-100 border-1 bg-secondary bg-opacity-10 hover-lift rounded-4 overflow-hidden"
         onClick={() => navigate(`/games/${game.id}`)}
         style={{
-          backgroundColor: "#eef0f4",
           cursor: "pointer",
           transition: "transform .2s, box-shadow .2s",
         }}

@@ -35,10 +35,10 @@ export default function Genres() {
 
   return (
     <div className="min-vh-100 py-5" style={{ backgroundColor: "#f4f6f9" }}>
-      <div className="container" style={{ maxWidth: 1000 }}>
+      <div className="container" style={{ maxWidth: 1100 }}>
         <div className="d-flex align-items-center justify-content-between mb-4">
           <div>
-            <h2 className="fw-bold text-dark mb-0">Genres</h2>
+            <h2 className="fw-bold text-danger mb-0 fs-1">Genres</h2>
             {!loading && !error && (
               <p className="text-muted small mb-0 mt-1">
                 {genres.length} genre{genres.length !== 1 && "s"} available
@@ -60,7 +60,7 @@ export default function Genres() {
             {genres.map((genre) => (
               <div
                 key={genre.id}
-                className="card border-0 rounded-4 px-4 py-3 d-flex flex-row justify-content-between align-items-center"
+                className="card border-0 bg-secondary bg-opacity-10 rounded-4 px-4 py-3 d-flex flex-row justify-content-between align-items-center"
                 onClick={() => handleGenreClick(genre)}
                 onMouseEnter={() => setHoveredId(genre.id)}
                 onMouseLeave={() => setHoveredId(null)}
