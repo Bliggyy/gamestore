@@ -13,7 +13,7 @@ export default function Games() {
 
   useEffect(() => {
     loadGames();
-  }, []);
+  }, [searchParams]);
 
   const loadGames = async () => {
     try {
