@@ -28,21 +28,41 @@ export default function Games() {
   };
 
   return (
-    <div className="games-container">
-      <h1 className="mb-4">Games</h1>
-      {error ? (
-        <ErrorPopup message={error} />
-      ) : loading ? (
-        <Loading />
-      ) : (
-        <div className="row g-3">
-          {games.length > 0 ? (
-            games.map((game) => <GameCard key={game.id} game={game} />)
-          ) : (
-            <h2>No games found.</h2>
+    <div className="min-vh-100 py-5" style={{ backgroundColor: "#f4f6f9" }}>
+      <div className="container" style={{ maxWidth: 1100 }}>
+        {/* Header */}
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          {searchParams.get("genre") && (
+            <span className="badge bg-opacity-10 text-danger px-3 py-2 fs-1">
+              {searchParams.get("genre")} Games
+            </span>
           )}
+          <h2 className="badge bg-opacity-10 text-danger px-3 py-2 fs-1">
+            Games
+          </h2>
         </div>
-      )}
+
+        {/* Content */}
+        {error ? (
+          <ErrorPopup message={error} />
+        ) : loading ? (
+          <Loading />
+        ) : games.length > 0 ? (
+          <div className="row g-4">
+            {games.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-5">
+            <div className="mb-3 fs-1">🎮</div>
+            <h4 className="fw-bold text-dark mb-2">No games found</h4>
+            <p className="text-muted">
+              Try a different genre or check back later.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
