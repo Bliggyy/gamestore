@@ -7,7 +7,7 @@ export default function GameCard({ game }) {
   return (
     <div className="col-12 col-md-4">
       <div
-        className="card h-100 border-0 hover-lift rounded-4 overflow-hidden"
+        className="card h-100 border-1 hover-lift rounded-4 overflow-hidden"
         onClick={() => navigate(`/games/${game.id}`)}
         style={{
           backgroundColor: "#eef0f4",
