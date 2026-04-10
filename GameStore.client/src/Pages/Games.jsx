@@ -32,12 +32,19 @@ export default function Games() {
       <div className="container" style={{ maxWidth: 1100 }}>
         {/* Header */}
         <div className="d-flex justify-content-between mb-4">
-          <h2 className="fw-bold text-danger mb-0 fs-1">
-            {searchParams.get("genre") != null
-              ? searchParams.get("genre") + " "
-              : ""}
-            Games
-          </h2>
+          <div>
+            <h2 className="fw-bold text-danger mb-0 fs-1">
+              {searchParams.get("genre") != null
+                ? searchParams.get("genre") + " "
+                : ""}
+              Games
+            </h2>
+            {!loading && !error && (
+              <p className="text-muted small mb-0 mt-1">
+                {games.length} title{games.length !== 1 && "s"} available
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Content */}

@@ -45,11 +45,6 @@ export default function Genres() {
               </p>
             )}
           </div>
-          {!loading && !error && (
-            <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill fs-6">
-              {genres.length} total
-            </span>
-          )}
         </div>
         {error ? (
           <ErrorPopup message={error} />
