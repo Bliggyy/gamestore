@@ -60,7 +60,7 @@ namespace GameStore.Data.Seeding
                 "RPG",
                 19.99m,
                 new DateOnly(2015, 5, 19),
-                $"/images/{ImageNames[0]}"
+                $"/images/{ImageNames[0]}.jpg"
             ),
             (
                 "Dark Souls III",
@@ -68,7 +68,7 @@ namespace GameStore.Data.Seeding
                 "Action",
                 29.99m,
                 new DateOnly(2016, 4, 12),
-                $"/images/{ImageNames[1]}"
+                $"/images/{ImageNames[1]}.jpg"
             ),
             (
                 "Civilization VI",
@@ -76,7 +76,7 @@ namespace GameStore.Data.Seeding
                 "Strategy",
                 29.99m,
                 new DateOnly(2016, 10, 21),
-                $"/images/{ImageNames[2]}"
+                $"/images/{ImageNames[2]}.jpg"
             ),
             (
                 "Resident Evil Village",
@@ -84,7 +84,7 @@ namespace GameStore.Data.Seeding
                 "Horror",
                 39.99m,
                 new DateOnly(2021, 5, 7),
-                $"/images/{ImageNames[3]}"
+                $"/images/{ImageNames[3]}.jpg"
             ),
             (
                 "FIFA 24",
@@ -92,7 +92,7 @@ namespace GameStore.Data.Seeding
                 "Sports",
                 59.99m,
                 new DateOnly(2023, 9, 29),
-                $"/images/{ImageNames[4]}"
+                $"/images/{ImageNames[4]}.jpg"
             ),
             (
                 "Elden Ring",
@@ -100,7 +100,7 @@ namespace GameStore.Data.Seeding
                 "Action RPG",
                 59.99m,
                 new DateOnly(2022, 2, 25),
-                $"/images/{ImageNames[5]}"
+                $"/images/{ImageNames[5]}.jpg"
             ),
             (
                 "Sekiro: Shadows Die Twice",
@@ -108,7 +108,7 @@ namespace GameStore.Data.Seeding
                 "Action",
                 39.99m,
                 new DateOnly(2019, 3, 22),
-                $"/images/{ImageNames[6]}"
+                $"/images/{ImageNames[6]}.jpg"
             ),
             (
                 "XCOM 2",
@@ -116,7 +116,7 @@ namespace GameStore.Data.Seeding
                 "Strategy",
                 19.99m,
                 new DateOnly(2016, 2, 5),
-                $"/images/{ImageNames[7]}"
+                $"/images/{ImageNames[7]}.jpg"
             ),
             (
                 "Alien: Isolation",
@@ -124,7 +124,7 @@ namespace GameStore.Data.Seeding
                 "Horror",
                 24.99m,
                 new DateOnly(2014, 10, 7),
-                $"/images/{ImageNames[8]}"
+                $"/images/{ImageNames[8]}.jpg"
             ),
             (
                 "NBA 2K24",
@@ -132,7 +132,7 @@ namespace GameStore.Data.Seeding
                 "Sports",
                 59.99m,
                 new DateOnly(2023, 9, 8),
-                $"/images/{ImageNames[9]}"
+                $"/images/{ImageNames[9]}.jpg"
             ),
             (
                 "Kingdom Come: Deliverance",
@@ -140,7 +140,7 @@ namespace GameStore.Data.Seeding
                 "RPG",
                 29.99m,
                 new DateOnly(2018, 2, 13),
-                $"/images/{ImageNames[10]}"
+                $"/images/{ImageNames[10]}.jpg"
             ),
             (
                 "Red Dead Redemption 2",
@@ -148,7 +148,7 @@ namespace GameStore.Data.Seeding
                 "Action-adventure",
                 39.99m,
                 new DateOnly(2018, 10, 26),
-                $"/images/{ImageNames[11]}"
+                $"/images/{ImageNames[11]}.jpg"
             ),
             (
                 "osu!",
@@ -156,7 +156,7 @@ namespace GameStore.Data.Seeding
                 "Rhythm",
                 0.00m,
                 new DateOnly(2007, 9, 16),
-                $"/images/{ImageNames[12]}"
+                $"/images/{ImageNames[12]}.jpg"
             ),
             (
                 "Counter-Strike 2",
@@ -164,7 +164,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2023, 9, 27),
-                $"/images/{ImageNames[13]}"
+                $"/images/{ImageNames[13]}.jpg"
             ),
             (
                 "Manor Lords",
@@ -172,7 +172,7 @@ namespace GameStore.Data.Seeding
                 "Simulation",
                 39.99m,
                 new DateOnly(2024, 4, 26),
-                $"/images/{ImageNames[14]}"
+                $"/images/{ImageNames[14]}.jpg"
             ),
             (
                 "Hollow Knight",
@@ -180,7 +180,7 @@ namespace GameStore.Data.Seeding
                 "Indie",
                 14.99m,
                 new DateOnly(2017, 2, 24),
-                $"/images/{ImageNames[15]}"
+                $"/images/{ImageNames[15]}.jpg"
             ),
             (
                 "Valorant",
@@ -188,7 +188,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2020, 6, 2),
-                $"/images/{ImageNames[16]}"
+                $"/images/{ImageNames[16]}.jpg"
             ),
             (
                 "Ghost of Tsushima",
@@ -196,7 +196,7 @@ namespace GameStore.Data.Seeding
                 "Action-adventure",
                 49.99m,
                 new DateOnly(2020, 7, 17),
-                $"/images/{ImageNames[17]}"
+                $"/images/{ImageNames[17]}.jpg"
             ),
             (
                 "Apex Legends",
@@ -204,7 +204,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2019, 2, 4),
-                $"/images/{ImageNames[18]}"
+                $"/images/{ImageNames[18]}.jpg"
             ),
             (
                 "Battlefield 2042",
@@ -212,7 +212,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 29.99m,
                 new DateOnly(2021, 11, 19),
-                $"/images/{ImageNames[19]}"
+                $"/images/{ImageNames[19]}.jpg"
             ),
         ];
     }
