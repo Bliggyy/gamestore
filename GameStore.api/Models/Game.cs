@@ -6,6 +6,7 @@ public class Game
 {
     public int Id { get; set; }
     public required string Name { get; set; }
+    public string? Description { get; set; }
 
     [ForeignKey("Genre")]
     public int GenreId { get; set; }
