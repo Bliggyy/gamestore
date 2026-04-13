@@ -1,3 +1,4 @@
+using GameStore.Data.Seeding;
 using GameStore.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,15 +35,48 @@ public static class DataExtensions
                             context
                                 .Set<Genre>()
                                 .AddRange(
-                                    new Genre { Name = "Action" },
-                                    new Genre { Name = "Adventure" },
-                                    new Genre { Name = "RPG" },
-                                    new Genre { Name = "Strategy" },
-                                    new Genre { Name = "Sports" },
-                                    new Genre { Name = "Action-adventure" },
-                                    new Genre { Name = "Action RPG" },
-                                    new Genre { Name = "Sandbox" }
+                                    SeedData.SeedGenres.Select(g => new Genre { Name = g.Name })
                                 );
+
+                            context.SaveChanges();
+                        }
+
+                        if (!context.Set<Game>().Any())
+                        {
+                            var genreMap = context
+                                .Set<Genre>()
+                                .ToDictionary(g => g.Name, g => g.Id);
+
+                            foreach (var g in SeedData.SeedGames)
+                            {
+                                Image? image = null;
+
+                                if (g.ImageUrl != null)
+                                {
+                                    image = new Image
+                                    {
+                                        Url = g.ImageUrl,
+                                        Caption = g.Name,
+                                        IsMain = true,
+                                    };
+                                    context.Set<Image>().Add(image);
+                                    context.SaveChanges();
+                                }
+
+                                context
+                                    .Set<Game>()
+                                    .Add(
+                                        new Game
+                                        {
+                                            Name = g.Name,
+                                            Description = g.Description,
+                                            GenreId = genreMap[g.Genre],
+                                            Price = g.Price,
+                                            ReleaseDate = g.ReleaseDate,
+                                            ImageId = image?.Id,
+                                        }
+                                    );
+                            }
 
                             context.SaveChanges();
                         }
