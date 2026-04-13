@@ -21,6 +21,30 @@ namespace GameStore.Data.Seeding
             new() { Name = "Indie" },
         ];
 
+        public static readonly List<string> ImageNames =
+        [
+            "the-witcher-3",
+            "dark-souls-3",
+            "civilization-6",
+            "resident-evil-village",
+            "fifa-24",
+            "elden-ring",
+            "sekiro-shadows-die-twice",
+            "xcom-2",
+            "alien-isolation",
+            "nba-2k24",
+            "kingdom-come-deliverance",
+            "red-dead-redemption-2",
+            "osu",
+            "counter-strike-2",
+            "manor-lords",
+            "hollow-knight",
+            "valorant",
+            "ghost-of-tsushima",
+            "apex-legends",
+            "battlefield-2042",
+        ];
+
         public static readonly List<(
             string Name,
             string Description,

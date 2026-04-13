@@ -243,20 +243,6 @@ public static class GamesEndpoints
 
                 dbcontext.Games.Remove(game.Game);
                 await dbcontext.SaveChangesAsync();
-
-                if (game.Image != null)
-                {
-                    var imagePath = Path.Combine(
-                        env.WebRootPath ?? "wwwroot",
-                        game.Image.Url.TrimStart('/')
-                    );
-
-                    if (File.Exists(imagePath))
-                    {
-                        File.Delete(imagePath);
-                    }
-                }
-
                 return Results.NoContent();
             }
         );
