@@ -9,6 +9,7 @@ import { useNotification } from "../context/NotificationContext";
 export default function GameCreate() {
   const [formData, setFormData] = useState({
     name: "",
+    description: "",
     genreId: "",
     price: "",
     releaseDate: "",

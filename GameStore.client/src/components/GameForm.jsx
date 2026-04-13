@@ -17,6 +17,15 @@ export default function GameForm({
         onChange={handleChange}
         required
       />
+      <input
+        type="text"
+        className="form-control mb-3"
+        name="description"
+        placeholder="Description"
+        value={formData.description}
+        onChange={handleChange}
+        required
+      />
       <select
         name="genreId"
         className="form-control mb-3"

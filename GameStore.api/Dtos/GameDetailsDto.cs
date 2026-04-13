@@ -7,6 +7,7 @@ namespace GameStore.Dtos;
 public record GameDetailsDto(
     int Id,
     string Name,
+    string Description,
     object Genre,
     string? ImageUrl,
     decimal Price,

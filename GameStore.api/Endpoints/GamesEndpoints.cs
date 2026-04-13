@@ -38,6 +38,7 @@ public static class GamesEndpoints
                     .Select(game => new GameDetailsDto(
                         game.Id,
                         game.Name,
+                        game.Description ?? string.Empty,
                         game.Genre!.Name,
                         game.Image != null ? game.Image.Url : string.Empty,
                         game.Price,
@@ -68,6 +69,7 @@ public static class GamesEndpoints
                         new GameDetailsDto(
                             game.Id,
                             game.Name,
+                            game.Description ?? string.Empty,
                             new { game.Genre!.Id, game.Genre.Name },
                             game.Image != null ? game.Image.Url : string.Empty,
                             game.Price,
@@ -121,6 +123,7 @@ public static class GamesEndpoints
                 var newGame = new Game
                 {
                     Name = request.Name,
+                    Description = request.Description,
                     GenreId = request.GenreId,
                     Image = image,
                     Price = request.Price,
@@ -135,6 +138,7 @@ public static class GamesEndpoints
                     .Select(game => new GameDetailsDto(
                         game.Id,
                         game.Name,
+                        game.Description ?? string.Empty,
                         game.Genre!.Name,
                         game.Image != null ? game.Image.Url : string.Empty,
                         game.Price,
@@ -217,6 +221,7 @@ public static class GamesEndpoints
                 }
 
                 existingGame.Name = updatedGame.Name;
+                existingGame.Description = updatedGame.Description ?? string.Empty;
                 existingGame.GenreId = updatedGame.GenreId;
                 existingGame.Price = updatedGame.Price;
                 existingGame.ReleaseDate = updatedGame.ReleaseDate;
@@ -257,6 +262,7 @@ public static class GamesEndpoints
                     .Select(og => new GameDetailsDto(
                         og.Game.Id,
                         og.Game.Name,
+                        og.Game.Description ?? string.Empty,
                         og.Game.Genre!.Name,
                         og.Game.Image != null ? og.Game.Image.Url : string.Empty,
                         og.Game.Price,
