@@ -60,6 +60,9 @@ public static class SeedEndpoints
             {
                 db.Games.RemoveRange(db.Games);
                 db.Genres.RemoveRange(db.Genres);
+                db.Images.RemoveRange(db.Images);
+                db.OwnedGames.RemoveRange(db.OwnedGames);
+                db.Carts.RemoveRange(db.Carts);
                 await db.SaveChangesAsync();
 
                 return Results.Ok(new { Message = "All games and genres deleted." });
