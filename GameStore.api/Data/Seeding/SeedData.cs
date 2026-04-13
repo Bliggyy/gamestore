@@ -116,7 +116,7 @@ namespace GameStore.Data.Seeding
                 "Strategy",
                 19.99m,
                 new DateOnly(2016, 2, 5),
-                $"/images/{ImageNames[7]}.jpg"
+                $"/images/{ImageNames[7]}.avif"
             ),
             (
                 "Alien: Isolation",
@@ -156,7 +156,7 @@ namespace GameStore.Data.Seeding
                 "Rhythm",
                 0.00m,
                 new DateOnly(2007, 9, 16),
-                $"/images/{ImageNames[12]}.jpg"
+                $"/images/{ImageNames[12]}.png"
             ),
             (
                 "Counter-Strike 2",
