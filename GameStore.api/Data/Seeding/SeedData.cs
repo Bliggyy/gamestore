@@ -60,7 +60,7 @@ namespace GameStore.Data.Seeding
                 "RPG",
                 19.99m,
                 new DateOnly(2015, 5, 19),
-                "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg"
+                $"/images/{ImageNames[0]}"
             ),
             (
                 "Dark Souls III",
@@ -68,7 +68,7 @@ namespace GameStore.Data.Seeding
                 "Action",
                 29.99m,
                 new DateOnly(2016, 4, 12),
-                "https://media.rawg.io/media/games/da1/da1b267764d77221f07a4386b6548e5a.jpg"
+                $"/images/{ImageNames[1]}"
             ),
             (
                 "Civilization VI",
@@ -76,7 +76,7 @@ namespace GameStore.Data.Seeding
                 "Strategy",
                 29.99m,
                 new DateOnly(2016, 10, 21),
-                "https://media.rawg.io/media/games/021/021c4e21a1824d2526f925eff6735d33.jpg"
+                $"/images/{ImageNames[2]}"
             ),
             (
                 "Resident Evil Village",
@@ -84,7 +84,7 @@ namespace GameStore.Data.Seeding
                 "Horror",
                 39.99m,
                 new DateOnly(2021, 5, 7),
-                "https://media.rawg.io/media/games/f24/f2493b7e5a91f48d8b8f51c2b2bffd2c.jpg"
+                $"/images/{ImageNames[3]}"
             ),
             (
                 "FIFA 24",
@@ -92,7 +92,7 @@ namespace GameStore.Data.Seeding
                 "Sports",
                 59.99m,
                 new DateOnly(2023, 9, 29),
-                "https://media.rawg.io/media/games/5eb/5eb49eb2fa0738fdb5bacea557b1bc57.jpg"
+                $"/images/{ImageNames[4]}"
             ),
             (
                 "Elden Ring",
@@ -100,7 +100,7 @@ namespace GameStore.Data.Seeding
                 "Action RPG",
                 59.99m,
                 new DateOnly(2022, 2, 25),
-                "https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg"
+                $"/images/{ImageNames[5]}"
             ),
             (
                 "Sekiro: Shadows Die Twice",
@@ -108,7 +108,7 @@ namespace GameStore.Data.Seeding
                 "Action",
                 39.99m,
                 new DateOnly(2019, 3, 22),
-                "https://media.rawg.io/media/games/67f/67f62d1f062a6164f57575e0604ee9f6.jpg"
+                $"/images/{ImageNames[6]}"
             ),
             (
                 "XCOM 2",
@@ -116,7 +116,7 @@ namespace GameStore.Data.Seeding
                 "Strategy",
                 19.99m,
                 new DateOnly(2016, 2, 5),
-                "https://media.rawg.io/media/games/8e4/8e4de3f54ac659e08a7ba6a2b731682a.jpg"
+                $"/images/{ImageNames[7]}"
             ),
             (
                 "Alien: Isolation",
@@ -124,7 +124,7 @@ namespace GameStore.Data.Seeding
                 "Horror",
                 24.99m,
                 new DateOnly(2014, 10, 7),
-                "https://media.rawg.io/media/games/b03/b03e5a9d531e9a4b9917b15a1d65778e.jpg"
+                $"/images/{ImageNames[8]}"
             ),
             (
                 "NBA 2K24",
@@ -132,7 +132,7 @@ namespace GameStore.Data.Seeding
                 "Sports",
                 59.99m,
                 new DateOnly(2023, 9, 8),
-                "https://media.rawg.io/media/games/5eb/5eb49eb2fa0738fdb5bacea557b1bc57.jpg"
+                $"/images/{ImageNames[9]}"
             ),
             (
                 "Kingdom Come: Deliverance",
@@ -140,7 +140,7 @@ namespace GameStore.Data.Seeding
                 "RPG",
                 29.99m,
                 new DateOnly(2018, 2, 13),
-                "https://media.rawg.io/media/games/e6d/e6de699bd788497f4b52e2f41f9698f9.jpg"
+                $"/images/{ImageNames[10]}"
             ),
             (
                 "Red Dead Redemption 2",
@@ -148,7 +148,7 @@ namespace GameStore.Data.Seeding
                 "Action-adventure",
                 39.99m,
                 new DateOnly(2018, 10, 26),
-                "https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg"
+                $"/images/{ImageNames[11]}"
             ),
             (
                 "osu!",
@@ -156,7 +156,7 @@ namespace GameStore.Data.Seeding
                 "Rhythm",
                 0.00m,
                 new DateOnly(2007, 9, 16),
-                "https://media.rawg.io/media/games/9fa/9fa63622543e5d4f6d99aa9d73b043de.jpg"
+                $"/images/{ImageNames[12]}"
             ),
             (
                 "Counter-Strike 2",
@@ -164,7 +164,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2023, 9, 27),
-                "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg"
+                $"/images/{ImageNames[13]}"
             ),
             (
                 "Manor Lords",
@@ -172,7 +172,7 @@ namespace GameStore.Data.Seeding
                 "Simulation",
                 39.99m,
                 new DateOnly(2024, 4, 26),
-                "https://media.rawg.io/media/games/784/784597f4dbe7bbdce61cc530a8a40eb1.jpg"
+                $"/images/{ImageNames[14]}"
             ),
             (
                 "Hollow Knight",
@@ -180,7 +180,7 @@ namespace GameStore.Data.Seeding
                 "Indie",
                 14.99m,
                 new DateOnly(2017, 2, 24),
-                "https://media.rawg.io/media/games/4cf/4cfc6b7f1850590a4634b08bfab308ab.jpg"
+                $"/images/{ImageNames[15]}"
             ),
             (
                 "Valorant",
@@ -188,7 +188,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2020, 6, 2),
-                "https://media.rawg.io/media/games/b11/b115b2bc6a5957a917bc7601f4abdda2.jpg"
+                $"/images/{ImageNames[16]}"
             ),
             (
                 "Ghost of Tsushima",
@@ -196,7 +196,7 @@ namespace GameStore.Data.Seeding
                 "Action-adventure",
                 49.99m,
                 new DateOnly(2020, 7, 17),
-                "https://media.rawg.io/media/games/f46/f466571d536f2e3ea9e815ad17177501.jpg"
+                $"/images/{ImageNames[17]}"
             ),
             (
                 "Apex Legends",
@@ -204,7 +204,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 0.00m,
                 new DateOnly(2019, 2, 4),
-                "https://media.rawg.io/media/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg"
+                $"/images/{ImageNames[18]}"
             ),
             (
                 "Battlefield 2042",
@@ -212,7 +212,7 @@ namespace GameStore.Data.Seeding
                 "Shooter",
                 29.99m,
                 new DateOnly(2021, 11, 19),
-                "https://media.rawg.io/media/games/fd9/fd9574112074e8a99a3fce200b1d86c6.jpg"
+                $"/images/{ImageNames[19]}"
             ),
         ];
     }
