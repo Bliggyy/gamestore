@@ -27,7 +27,20 @@ public static class SeedEndpoints
                 await db.Genres.AddRangeAsync(genres);
                 await db.SaveChangesAsync();
 
+                var images = SeedData
+                    .SeedGames.Where(g => g.ImageUrl != null)
+                    .Select(g => new Image
+                    {
+                        Url = g.ImageUrl,
+                        Caption = g.Name,
+                        IsMain = true,
+                    })
+                    .ToList();
+                await db.Images.AddRangeAsync(images);
+                await db.SaveChangesAsync();
+
                 var genreMap = await db.Genres.ToDictionaryAsync(g => g.Name, g => g.Id);
+                var imageMap = await db.Images.ToDictionaryAsync(i => i.Url, i => i.Id);
 
                 var games = SeedData
                     .SeedGames.Select(g => new Game
@@ -37,9 +50,9 @@ public static class SeedEndpoints
                         GenreId = genreMap[g.Genre],
                         Price = g.Price,
                         ReleaseDate = g.ReleaseDate,
+                        ImageId = g.ImageUrl != null ? imageMap[g.ImageUrl] : null,
                     })
                     .ToList();
-
                 await db.Games.AddRangeAsync(games);
                 await db.SaveChangesAsync();
 
@@ -49,6 +62,7 @@ public static class SeedEndpoints
                         Message = "Seed successful",
                         Genres = genres.Count,
                         Games = games.Count,
+                        Images = images.Count,
                     }
                 );
             }
