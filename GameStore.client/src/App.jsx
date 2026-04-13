@@ -13,7 +13,7 @@ import {
   Create,
   Checkout,
   OwnedGames,
-} from "./pages/Index";
+} from "./Ppages/Index";
 import { NotificationProvider } from "./context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
