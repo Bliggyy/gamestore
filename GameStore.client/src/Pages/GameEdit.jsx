@@ -13,6 +13,7 @@ export default function GameEdit() {
 
   const [formData, setFormData] = useState({
     name: game.name || "",
+    description: game.description || "",
     genreId: game.genre.id || "",
     price: game.price || "",
     releaseDate: game.releaseDate || "",
