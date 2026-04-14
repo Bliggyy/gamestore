@@ -3,6 +3,7 @@ import { fetchGenres } from "../api/genre";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import ErrorPopup from "../components/ErrorPopup";
+import DeleteModal from "../components/DeleteModal";
 import { useAuth } from "../context/AuthContext";
 
 export default function Genres() {
@@ -10,6 +11,7 @@ export default function Genres() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -32,6 +34,11 @@ export default function Genres() {
   const handleGenreClick = (genre) => navigate(`/games/?genre=${genre.name}`);
   const handleEditClick = (genre, id) =>
     navigate(`/genres/edit/${id}`, { state: { currentGenre: genre, id } });
+  const handleDeleteClick = (id) => {
+    setDeleteTarget(id);
+  };
+
+  const doNothing = () => {};
 
   return (
     <div className="min-vh-100 py-5" style={{ backgroundColor: "#f4f6f9" }}>
@@ -111,6 +118,15 @@ export default function Genres() {
                   className="d-flex align-items-center gap-2"
                   onClick={(e) => e.stopPropagation()}
                 >
+                  <DeleteModal
+                    id={genre.id}
+                    name={genre.name}
+                    show={deleteTarget === genre.id}
+                    onHide={() => setDeleteTarget(null)}
+                    deleteFunction={doNothing}
+                    redirectPath="/genres"
+                  />
+
                   {user && user.role === "Admin" && (
                     <>
                       <button
@@ -139,6 +155,7 @@ export default function Genres() {
                           color: "#dc3545",
                           transition: "background-color .2s",
                         }}
+                        onClick={() => handleDeleteClick(genre.id)}
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.backgroundColor =
                             "rgba(220,53,69,.25)")
