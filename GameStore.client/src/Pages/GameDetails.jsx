@@ -111,7 +111,7 @@ export default function GameDetails() {
             }
             alt={gameDetails.name}
             className="w-100 h-100"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "fill" }}
           />
         </div>
         <div className="row g-4">
