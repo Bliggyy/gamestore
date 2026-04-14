@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Index() {
+  const [hoveredItem, setHoveredItem] = useState(null);
+
   return (
     <div className="min-vh-100 py-5" style={{ backgroundColor: "#f4f6f9" }}>
       <div className="container" style={{ maxWidth: 1100 }}>
@@ -124,33 +128,44 @@ export default function Index() {
                 perms: "All manager features · Wipe site data · Run seed data",
                 danger: true,
               },
-            ].map(({ role, perms, danger }) => (
-              <div key={role} className="col-md-4">
+            ].map(({ role, perms, danger }) => {
+              const isHovered = hoveredItem === role;
+
+              return (
                 <div
-                  className="rounded-3 p-3 h-100"
-                  style={{
-                    background: danger ? "#fff5f5" : "#f8f9fa",
-                    border: `1px solid ${danger ? "#f5c6cb" : "#e9ecef"}`,
-                  }}
+                  key={role}
+                  className="col-md-4"
+                  onMouseEnter={() => setHoveredItem(role)}
+                  onMouseLeave={() => setHoveredItem(null)}
                 >
                   <div
-                    className="fw-bold mb-1"
+                    className="rounded-3 p-3 h-100"
                     style={{
-                      fontSize: 16,
-                      color: danger ? "#dc3545" : "#212529",
+                      background: isHovered ? "#fff5f5" : "#f8f9fa",
+                      border: `1px solid ${isHovered ? "#f5c6cb" : "#e9ecef"}`,
+                      transition: "background-color .3s, border-color .3s",
                     }}
                   >
-                    {role}
-                  </div>
-                  <div
-                    className="text-muted"
-                    style={{ fontSize: 16, lineHeight: 1.5 }}
-                  >
-                    {perms}
+                    <div
+                      className="fw-bold mb-1"
+                      style={{
+                        fontSize: 16,
+                        color: isHovered ? "#dc3545" : "#212529",
+                        transition: "color .3s",
+                      }}
+                    >
+                      {role}
+                    </div>
+                    <div
+                      className="text-muted"
+                      style={{ fontSize: 16, lineHeight: 1.5 }}
+                    >
+                      {perms}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         <div className="card border-0 rounded-4 p-4 mb-4">
@@ -174,33 +189,41 @@ export default function Index() {
               { label: "User 2", user: "user2", pass: "user2Password" },
               { label: "User 3", user: "user3", pass: "user3Password" },
               { label: "Manager", user: "manager1", pass: "manager1Password" },
-            ].map(({ label, user, pass }) => (
-              <div key={label} className="col-6 col-md-3">
-                <div
-                  className="rounded-3 p-3 h-100"
-                  style={{ background: "#f8f9fa", border: "1px solid #e9ecef" }}
-                >
+            ].map(({ label, user, pass }) => {
+              return (
+                <div key={label} className="col-6 col-md-3">
                   <div
-                    className="text-muted fw-bold text-uppercase mb-1"
-                    style={{ fontSize: 16, letterSpacing: 0.5 }}
+                    className="rounded-3 p-3 h-100"
+                    style={{
+                      background: "#f8f9fa",
+                      border: "1px solid #e9ecef",
+                    }}
                   >
-                    {label}
-                  </div>
-                  <div
-                    className="text-dark"
-                    style={{ fontSize: 14, fontFamily: "monospace" }}
-                  >
-                    Username: {user}
-                  </div>
-                  <div
-                    className="text-muted"
-                    style={{ fontSize: 14, fontFamily: "monospace" }}
-                  >
-                    Password: {pass}
+                    <div
+                      className="text-muted fw-bold text-uppercase mb-1"
+                      style={{
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      }}
+                    >
+                      {label}
+                    </div>
+                    <div
+                      className="text-dark"
+                      style={{ fontSize: 14, fontFamily: "monospace" }}
+                    >
+                      Username: {user}
+                    </div>
+                    <div
+                      className="text-muted"
+                      style={{ fontSize: 14, fontFamily: "monospace" }}
+                    >
+                      Password: {pass}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div
             className="rounded-3 p-3"
