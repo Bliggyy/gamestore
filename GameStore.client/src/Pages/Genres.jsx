@@ -31,9 +31,14 @@ export default function Genres() {
     }
   };
 
-  const handleGenreClick = (genre) => navigate(`/games/?genre=${genre.name}`);
-  const handleEditClick = (genre, id) =>
+  const handleGenreClick = (genre) => {
+    window.scrollTo(0, 0);
+    navigate(`/games/?genre=${genre.name}`);
+  };
+  const handleEditClick = (genre, id) => {
+    window.scrollTo(0, 0);
     navigate(`/genres/edit/${id}`, { state: { currentGenre: genre, id } });
+  };
   const handleDeleteClick = (id) => {
     setDeleteTarget(id);
   };
